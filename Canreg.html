@@ -23,6 +23,37 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        /* --- BACK ARROW STYLE --- */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            color: var(--maroon);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .back-btn span {
+            margin-right: 8px;
+            font-size: 1.2rem;
         }
 
         .registry-container {
@@ -121,7 +152,6 @@
             animation: slideIn 0.3s ease-out;
         }
 
-        /* Specific style for Assistant items */
         .candidate-item.assistant {
             border-left-color: #555;
             background: #f0f0f0;
@@ -152,12 +182,15 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Scrollbar styling */
         .candidate-list::-webkit-scrollbar { width: 6px; }
         .candidate-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
     </style>
 </head>
 <body>
+
+    <a href="dash.html" class="back-btn">
+        <span>←</span> Back to Dashboard
+    </a>
 
     <div class="registry-container">
         <h2>Candidate Registry</h2>
@@ -202,7 +235,7 @@
 
         <div class="candidate-list" id="displayList">
             <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Candidates:</h3>
-            </div>
+        </div>
 
         <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
     </div>
@@ -213,7 +246,6 @@
         function registerCandidate() {
             const nameInput = document.getElementById('candName');
             const postSelect = document.getElementById('candPost');
-            
             const name = nameInput.value.trim();
             const post = postSelect.value;
 
@@ -224,10 +256,8 @@
 
             const newCandidate = { name, post };
             candidates.push(newCandidate);
-
             updateList();
 
-            // Reset name input and focus back for speed
             nameInput.value = '';
             nameInput.focus();
         }
