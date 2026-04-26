@@ -23,6 +23,36 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        /* --- BACK ARROW STYLE --- */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            text-decoration: none;
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            color: var(--maroon);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .back-btn span {
+            margin-right: 8px;
+            font-size: 1.2rem;
         }
 
         .registry-container {
@@ -32,7 +62,7 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--green); /* Green accent for Class Registry */
+            border-top: 8px solid var(--green);
         }
 
         h2 {
@@ -142,6 +172,10 @@
 </head>
 <body>
 
+    <a href="dash.html" class="back-btn">
+        <span>←</span> Back to Dashboard
+    </a>
+
     <div class="registry-container">
         <h2>Class Registry</h2>
         <p class="subtitle">Kivaywa Boys Senior School</p>
@@ -155,7 +189,7 @@
 
         <div class="class-list" id="classListDisplay">
             <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>
-            </div>
+        </div>
 
         <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
     </div>
@@ -172,7 +206,6 @@
                 return;
             }
 
-            // Prevent duplicates
             if (classes.includes(name)) {
                 alert("This class is already registered.");
                 return;
