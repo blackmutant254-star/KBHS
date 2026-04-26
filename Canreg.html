@@ -241,7 +241,11 @@
     </div>
 
     <script>
-        let candidates = [];
+        // Load candidates from localStorage on startup
+        let candidates = JSON.parse(localStorage.getItem('candidates')) || [];
+        
+        // Initial UI render
+        updateList();
 
         function registerCandidate() {
             const nameInput = document.getElementById('candName');
@@ -256,10 +260,17 @@
 
             const newCandidate = { name, post };
             candidates.push(newCandidate);
-            updateList();
+            
+            saveAndRefresh();
 
             nameInput.value = '';
             nameInput.focus();
+        }
+
+        function saveAndRefresh() {
+            // Save current array to localStorage
+            localStorage.setItem('candidates', JSON.stringify(candidates));
+            updateList();
         }
 
         function updateList() {
@@ -283,8 +294,10 @@
         }
 
         function removeCandidate(index) {
-            candidates.splice(index, 1);
-            updateList();
+            if(confirm("Are you sure you want to remove this candidate?")) {
+                candidates.splice(index, 1);
+                saveAndRefresh();
+            }
         }
     </script>
 </body>
