@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivaywa Boys | Election Dashboard</title>
+    <style>
+        :root {
+            --maroon: #800000;
+            --green: #006400;
+            --black: #0a0a0a;
+            --gray: #f4f4f4;
+            --white: #ffffff;
+            --text-dark: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--gray);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--maroon);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header span {
+            color: var(--green);
+        }
+
+        /* --- DASHBOARD GRID --- */
+        .dash-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            align-content: center;
+        }
+
+        .menu-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--maroon);
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: var(--gray);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            transition: 0.3s;
+        }
+
+        .menu-card:hover .icon-box {
+            background: var(--maroon);
+            color: var(--white);
+        }
+
+        .menu-card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--black);
+        }
+
+        .menu-card p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* --- SPECIAL COLORS --- */
+        .card-candidate:hover { border-color: var(--maroon); }
+        .card-class:hover { border-color: var(--green); }
+        .card-tally:hover { border-color: var(--black); }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--white);
+            color: var(--maroon);
+            font-weight: bold;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 600px) {
+            .dash-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Kivaywa Boys <span>E-Voting</span> System</h1>
+    </header>
+
+    <div class="dash-container">
+        
+        <a href="register_candidate.html" class="menu-card card-candidate">
+            <div class="icon-box">👤</div>
+            <h2>Candidate Registry</h2>
+            <p>Add new aspirants and their assistant prefects to the ballot.</p>
+        </a>
+
+        <a href="register_class.html" class="menu-card card-class">
+            <div class="icon-box">🏫</div>
+            <h2>Class Registry</h2>
+            <p>Define the voting streams and classes participating in the election.</p>
+        </a>
+
+        <a href="tally_results.html" class="menu-card card-tally">
+            <div class="icon-box">📊</div>
+            <h2>Live Tally Board</h2>
+            <p>Input class-by-class results and project the live standings.</p>
+        </a>
+
+    </div>
+
+    <footer>KNOWLEDGE IS IMMORTAL</footer>
+
+</body>
+</html>
