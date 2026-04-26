@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivaywa Boys | Live Tally</title>
+    <style>
+        :root {
+            --maroon: #800000;
+            --green: #006400;
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray: #f4f7f6;
+            --gold: #d4af37;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gray);
+            margin: 0;
+            padding: 20px;
+            color: var(--black);
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: var(--white);
+            background: var(--black);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover { background: var(--maroon); transform: scale(1.05); }
+
+        .container {
+            max-width: 1100px;
+            margin: 60px auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 4px solid var(--maroon);
+            padding-bottom: 20px;
+        }
+
+        h1 { text-transform: uppercase; letter-spacing: 2px; margin: 0; }
+        .subtitle { color: var(--green); font-weight: bold; }
+
+        /* --- CONTROL PANEL --- */
+        .control-panel {
+            display: flex;
+            gap: 20px;
+            background: #eee;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        select {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: 2px solid var(--maroon);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* --- TALLY TABLE --- */
+        .table-wrapper { overflow-x: auto; margin-top: 20px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--black);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .class-col { font-weight: bold; color: var(--green); width: 150px; }
+
+        .vote-input {
+            width: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .vote-input:focus { border-color: var(--maroon); outline: none; background: #fffde7; }
+
+        /* --- TOTALS ROW --- */
+        .total-row {
+            background: #fdf2f2;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--maroon);
+        }
+
+        .winner-card {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--maroon), #400000);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .winner-card h2 { margin: 0; color: var(--gold); }
+
+        .tagline { text-align: center; margin-top: 50px; color: #ccc; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <a href="dash.html" class="back-btn">← DASHBOARD</a>
+
+    <div class="container">
+        <header>
+            <h1>Election Tally Center</h1>
+            <p class="subtitle">Live Results Processing</p>
+        </header>
+
+        <div class="control-panel">
+            <label>Select Post to Tally:</label>
+            <select id="postFilter" onchange="renderTallyTable()">
+                <option value="">-- Choose a Position --</option>
+                </select>
+        </div>
+
+        <div id="tallyArea" class="table-wrapper">
+            <p style="text-align: center; color: #999;">Select a position above to begin entering results.</p>
+        </div>
+
+        <div id="winnerDisplay" class="winner-card">
+            <p>CURRENT FRONT RUNNER</p>
+            <h2 id="winnerName">Candidate Name</h2>
+            <p id="winnerVotes">0 Total Votes</p>
+        </div>
+
+        <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
+    </div>
+
+    <script>
+        // MOCK DATA SYNC (In a real app, this pulls from your registration pages via localStorage)
+        // For testing, I'm adding some logic to fetch your saved data.
+        let savedCandidates = JSON.parse(localStorage.getItem('candidates')) || [];
+        let savedClasses = JSON.parse(localStorage.getItem('classes')) || [];
+
+        // Load Posts into Dropdown
+        const postFilter = document.getElementById('postFilter');
+        const uniquePosts = [...new Set(savedCandidates.map(c => c.post))];
+        uniquePosts.forEach(post => {
+            let opt = document.createElement('option');
+            opt.value = post;
+            opt.innerText = post;
+            postFilter.appendChild(opt);
+        });
+
+        function renderTallyTable() {
+            const post = postFilter.value;
+            const tallyArea = document.getElementById('tallyArea');
+            const winnerDisplay = document.getElementById('winnerDisplay');
+            
+            if (!post) {
+                tallyArea.innerHTML = "";
+                winnerDisplay.style.display = "none";
+                return;
+            }
+
+            const candidatesForPost = savedCandidates.filter(c => c.post === post);
+            
+            if (candidatesForPost.length === 0) {
+                tallyArea.innerHTML = "<p>No candidates registered for this post.</p>";
+                return;
+            }
+
+            let html = `<table><thead><tr><th>Class / Stream</th>`;
+            candidatesForPost.forEach(c => {
+                html += `<th>${c.name}</th>`;
+            });
+            html += `</tr></thead><tbody>`;
+
+            savedClasses.forEach((className, classIndex) => {
+                html += `<tr><td class="class-col">${className}</td>`;
+                candidatesForPost.forEach((c, candIndex) => {
+                    html += `<td><input type="number" class="vote-input" 
+                                data-cand="${candIndex}" 
+                                data-class="${classIndex}" 
+                                value="0" min="0" oninput="calculateTotals()"></td>`;
+                });
+                html += `</tr>`;
+            });
+
+            // Footer for totals
+            html += `<tr class="total-row"><td>TOTAL VOTES</td>`;
+            candidatesForPost.forEach((c, candIndex) => {
+                html += `<td id="total-cand-${candIndex}">0</td>`;
+            });
+            html += `</tr></tbody></table>`;
+
+            tallyArea.innerHTML = html;
+            winnerDisplay.style.display = "block";
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const post = postFilter.value;
+            const candidatesForPost = savedCandidates.filter(c => c.post === post);
+            const inputs = document.querySelectorAll('.vote-input');
+            let totals = new Array(candidatesForPost.length).fill(0);
+
+            inputs.forEach(input => {
+                const candIdx = parseInt(input.getAttribute('data-cand'));
+                const val = parseInt(input.value) || 0;
+                totals[candIdx] += val;
+            });
+
+            let maxVotes = -1;
+            let winnerIdx = 0;
+
+            totals.forEach((total, idx) => {
+                document.getElementById(`total-cand-${idx}`).innerText = total;
+                if (total > maxVotes) {
+                    maxVotes = total;
+                    winnerIdx = idx;
+                }
+            });
+
+            // Update Winner Card
+            if (maxVotes > 0) {
+                document.getElementById('winnerName').innerText = candidatesForPost[winnerIdx].name;
+                document.getElementById('winnerVotes').innerText = maxVotes + " Total Votes";
+            } else {
+                document.getElementById('winnerName').innerText = "Waiting for data...";
+                document.getElementById('winnerVotes').innerText = "0 Votes";
+            }
+        }
+    </script>
+</body>
+</html>
