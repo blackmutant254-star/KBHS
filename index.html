@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivaywa Boys Senior School | Entry</title>
+    <style>
+        :root {
+            --maroon: #800000;
+            --green: #006400;
+            --black: #0a0a0a;
+            --gray: #2d2d2d;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* --- MAIN SWITCH POINT (LOADING SCREEN) --- */
+        #loader {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .badge-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        /* Pulsing Rings Around Badge */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid var(--maroon);
+            width: 100%;
+            height: 100%;
+            animation: ripple 2s infinite ease-out;
+        }
+
+        .ring:nth-child(2) {
+            animation-delay: 0.5s;
+            border-color: var(--green);
+        }
+
+        /* The Badge Image */
+        .school-badge {
+            width: 140px;
+            height: 140px;
+            z-index: 10;
+            object-fit: contain;
+            /* Added drop shadow to make the badge pop */
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+
+        .tagline {
+            color: var(--white);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.5s forwards 0.3s;
+        }
+
+        .tagline b {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 200px;
+            height: 3px;
+            background: var(--gray);
+            margin-top: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, var(--maroon), var(--green));
+            animation: fillProgress 3s forwards ease-in-out;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes ripple {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fillProgress {
+            to { width: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="badge-wrapper">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" alt="Kivaywa Boys Badge" class="school-badge">
+        </div>
+
+        <div class="tagline">Knowledge is <b>Immortal</b></div>
+
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        
+        window.addEventListener('load', () => {
+            
+            setTimeout(() => {
+                
+                document.getElementById('loader').style.transition = "opacity 0.5s ease";
+                document.getElementById('loader').style.opacity = "0";
+                
+                setTimeout(() => {
+                    window.location.href = 'dash.html';
+                }, 500);
+            }, 3500); 
+        });
+    </script>
+
+</body>
+</html>
