@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivaywa Boys | Class Registry</title>
+    <style>
+        :root {
+            --maroon: #800000;
+            --green: #006400;
+            --black: #1a1a1a;
+            --gray: #f8f9fa;
+            --white: #ffffff;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gray);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .registry-container {
+            width: 95%;
+            max-width: 500px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--green); /* Green accent for Class Registry */
+        }
+
+        h2 {
+            color: var(--black);
+            text-align: center;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--maroon);
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--black);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--green);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 100, 0, 0.1);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-register:hover {
+            background-color: #004d00;
+            transform: translateY(-2px);
+        }
+
+        .class-list {
+            margin-top: 40px;
+            border-top: 2px dashed var(--border);
+            padding-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .class-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--maroon);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .class-name {
+            font-weight: 700;
+            color: var(--black);
+            font-size: 1rem;
+        }
+
+        .tagline {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #bbb;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="registry-container">
+        <h2>Class Registry</h2>
+        <p class="subtitle">Set up Voting Units</p>
+
+        <div class="input-group">
+            <label>Class Name</label>
+            <input type="text" id="className" placeholder="e.g. Form 4 North" onkeypress="handleKeyPress(event)">
+        </div>
+
+        <button class="btn-register" onclick="registerClass()">Register Class</button>
+
+        <div class="class-list" id="classListDisplay">
+            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>
+            </div>
+
+        <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
+    </div>
+
+    <script>
+        let classes = [];
+
+        function registerClass() {
+            const input = document.getElementById('className');
+            const name = input.value.trim();
+
+            if (name === "") {
+                alert("Please enter a class name.");
+                return;
+            }
+
+            // Prevent duplicates
+            if (classes.includes(name)) {
+                alert("This class is already registered.");
+                return;
+            }
+
+            classes.push(name);
+            updateUI();
+
+            input.value = '';
+            input.focus();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                registerClass();
+            }
+        }
+
+        function updateUI() {
+            const display = document.getElementById('classListDisplay');
+            display.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>';
+
+            classes.forEach((className, index) => {
+                const div = document.createElement('div');
+                div.className = 'class-item';
+                div.innerHTML = `
+                    <span class="class-name">${className}</span>
+                    <button onclick="removeClass(${index})" style="background:none; border:none; color:#dc3545; font-size: 1.2rem; cursor:pointer;">&times;</button>
+                `;
+                display.appendChild(div);
+            });
+        }
+
+        function removeClass(index) {
+            classes.splice(index, 1);
+            updateUI();
+        }
+    </script>
+</body>
+</html>
