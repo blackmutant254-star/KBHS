@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kivaywa Boys | Candidate Registry</title>
+    <style>
+        :root {
+            --maroon: #800000;
+            --green: #006400;
+            --black: #1a1a1a;
+            --gray: #f8f9fa;
+            --white: #ffffff;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gray);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .registry-container {
+            width: 95%;
+            max-width: 650px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--maroon);
+        }
+
+        h2 {
+            color: var(--black);
+            text-align: center;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--green);
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--black);
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--maroon);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--maroon);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(128, 0, 0, 0.2);
+        }
+
+        .btn-register:hover {
+            background-color: #600000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(128, 0, 0, 0.3);
+        }
+
+        .candidate-list {
+            margin-top: 40px;
+            border-top: 2px dashed var(--border);
+            padding-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .candidate-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 5px solid var(--green);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Specific style for Assistant items */
+        .candidate-item.assistant {
+            border-left-color: #555;
+            background: #f0f0f0;
+        }
+
+        .candidate-info b { color: var(--maroon); font-size: 1.1rem; }
+        .post-badge {
+            font-size: 0.75rem;
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #444;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .tagline {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #bbb;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Scrollbar styling */
+        .candidate-list::-webkit-scrollbar { width: 6px; }
+        .candidate-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="registry-container">
+        <h2>Candidate Registry</h2>
+        <p class="subtitle">Kivaywa Boys Senior School Elections</p>
+
+        <div class="input-group">
+            <label>Full Name of Candidate</label>
+            <input type="text" id="candName" placeholder="e.g. John Doe">
+        </div>
+
+        <div class="input-group">
+            <label>Position / Post</label>
+            <select id="candPost">
+                <optgroup label="Core Leadership">
+                    <option value="School Captain">School Captain</option>
+                    <option value="Assistant School Captain">Assistant School Captain</option>
+                    <option value="Deputy Captain">Deputy Captain</option>
+                    <option value="Assistant Deputy Captain">Assistant Deputy Captain</option>
+                </optgroup>
+                <optgroup label="Departments">
+                    <option value="Dining Hall Prefect">Dining Hall Prefect</option>
+                    <option value="Assistant Dining Hall Prefect">Assistant Dining Hall Prefect</option>
+                    <option value="Games Prefect">Games Prefect</option>
+                    <option value="Assistant Games Prefect">Assistant Games Prefect</option>
+                    <option value="Entertainment Prefect">Entertainment Prefect</option>
+                    <option value="Assistant Entertainment Prefect">Assistant Entertainment Prefect</option>
+                    <option value="Environment Prefect">Environment Prefect</option>
+                    <option value="Assistant Environment Prefect">Assistant Environment Prefect</option>
+                    <option value="Laboratory Prefect">Laboratory Prefect</option>
+                    <option value="Assistant Laboratory Prefect">Assistant Laboratory Prefect</option>
+                    <option value="Library Prefect">Library Prefect</option>
+                    <option value="Assistant Library Prefect">Assistant Library Prefect</option>
+                    <option value="Overall Dormitory Prefect">Overall Dormitory Prefect</option>
+                    <option value="Assistant Dormitory Prefect">Assistant Dormitory Prefect</option>
+                    <option value="Club and Societies Prefect">Club and Societies Prefect</option>
+                    <option value="Assistant Club/Societies Prefect">Assistant Club/Societies Prefect</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <button class="btn-register" onclick="registerCandidate()">Add Candidate to Board</button>
+
+        <div class="candidate-list" id="displayList">
+            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Candidates:</h3>
+            </div>
+
+        <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
+    </div>
+
+    <script>
+        let candidates = [];
+
+        function registerCandidate() {
+            const nameInput = document.getElementById('candName');
+            const postSelect = document.getElementById('candPost');
+            
+            const name = nameInput.value.trim();
+            const post = postSelect.value;
+
+            if (name === "") {
+                alert("Please enter the candidate's name.");
+                return;
+            }
+
+            const newCandidate = { name, post };
+            candidates.push(newCandidate);
+
+            updateList();
+
+            // Reset name input and focus back for speed
+            nameInput.value = '';
+            nameInput.focus();
+        }
+
+        function updateList() {
+            const listDiv = document.getElementById('displayList');
+            listDiv.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Candidates:</h3>';
+
+            candidates.forEach((c, index) => {
+                const isAssistant = c.post.toLowerCase().includes('assistant');
+                const item = document.createElement('div');
+                item.className = `candidate-item ${isAssistant ? 'assistant' : ''}`;
+                
+                item.innerHTML = `
+                    <div class="candidate-info">
+                        <b>${c.name}</b> <br>
+                        <span class="post-badge">${c.post}</span>
+                    </div>
+                    <button onclick="removeCandidate(${index})" style="background:none; border:none; color:#dc3545; font-size: 1.5rem; cursor:pointer; padding: 0 10px;">&times;</button>
+                `;
+                listDiv.appendChild(item);
+            });
+        }
+
+        function removeCandidate(index) {
+            candidates.splice(index, 1);
+            updateList();
+        }
+    </script>
+</body>
+</html>
