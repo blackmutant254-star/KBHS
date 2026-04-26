@@ -26,7 +26,6 @@
             position: relative;
         }
 
-        /* --- BACK ARROW STYLE --- */
         .back-btn {
             position: absolute;
             top: 30px;
@@ -195,7 +194,11 @@
     </div>
 
     <script>
-        let classes = [];
+        // Load data from localStorage on startup
+        let classes = JSON.parse(localStorage.getItem('classes')) || [];
+        
+        // Initial UI render
+        updateUI();
 
         function registerClass() {
             const input = document.getElementById('className');
@@ -212,7 +215,7 @@
             }
 
             classes.push(name);
-            updateUI();
+            saveAndRefresh();
 
             input.value = '';
             input.focus();
@@ -222,6 +225,12 @@
             if (event.key === "Enter") {
                 registerClass();
             }
+        }
+
+        function saveAndRefresh() {
+            // Save to localStorage
+            localStorage.setItem('classes', JSON.stringify(classes));
+            updateUI();
         }
 
         function updateUI() {
@@ -241,7 +250,7 @@
 
         function removeClass(index) {
             classes.splice(index, 1);
-            updateUI();
+            saveAndRefresh();
         }
     </script>
 </body>
