@@ -31,13 +31,13 @@
 
         .container { width: 100%; max-width: 1000px; margin: 0 auto; }
 
-        /* --- INTERNAL NOTIFICATION (TOAST) --- */
+        /* --- TOAST --- */
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 10000; }
         .toast {
             background: var(--black);
             color: white;
             padding: 14px 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 10px;
             box-shadow: var(--shadow-lg);
             display: flex;
@@ -48,7 +48,7 @@
         }
         @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* --- CUSTOM CONFIRM MODAL --- */
+        /* --- MODAL --- */
         #modalOverlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -57,33 +57,34 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(4px);
         }
-        .modal { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; box-shadow: var(--shadow-lg); }
+        .modal { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; }
         .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
         .modal-btns button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
 
-        /* --- LAYOUT --- */
-        .card { background: var(--glass); border-radius: 20px; padding: 30px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid var(--white); margin-bottom: 20px; }
+        /* --- UI ELEMENTS --- */
+        .card { background: var(--glass); border-radius: 24px; padding: 30px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid var(--white); margin-bottom: 20px; }
         .admin-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
         
-        header { text-align: center; margin-bottom: 20px; }
-        header h2 { color: var(--maroon); font-weight: 800; }
-        .subtitle { color: var(--green); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 800; }
+        header h2 { color: var(--maroon); font-weight: 800; font-size: 1.8rem; text-align: center; }
+        .subtitle { color: var(--green); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 800; text-align: center; display: block; }
 
-        .btn { cursor: pointer; border-radius: 10px; font-weight: 700; padding: 12px; transition: 0.2s; border: none; }
-        .btn-maroon { background: var(--maroon); color: white; }
-        .btn-green { background: var(--green); color: white; }
+        .btn { cursor: pointer; border-radius: 12px; font-weight: 700; padding: 14px; transition: 0.3s; border: none; font-size: 0.9rem; }
+        .btn-maroon { background: var(--maroon); color: white; width: 100%; }
+        .btn-green { background: var(--green); color: white; width: 100%; }
+        .btn:active { transform: scale(0.98); }
 
-        input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid var(--border); margin-top: 5px; margin-bottom: 15px; }
+        label { font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 5px; display: block; margin-top: 15px; }
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid var(--border); outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--maroon); }
 
-        /* --- LIST STYLING --- */
-        .scroll-list { max-height: 250px; overflow-y: auto; background: #fff; border-radius: 10px; padding: 10px; border: 1px solid var(--border); }
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .scroll-list { max-height: 300px; overflow-y: auto; background: #fff; border-radius: 14px; padding: 10px; border: 1px solid var(--border); margin-top: 15px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f1f5f9; }
         .list-item:last-child { border-bottom: none; }
-        .del-btn { color: var(--danger); cursor: pointer; font-size: 1.2rem; font-weight: bold; }
+        .del-btn { color: var(--danger); cursor: pointer; font-size: 1.4rem; line-height: 1; }
 
-        @media (max-width: 768px) { .admin-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 850px) { .admin-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -92,48 +93,48 @@
 
     <div id="modalOverlay">
         <div class="modal">
-            <h3>Delete Record?</h3>
-            <p style="color: #64748b; margin-top: 8px;">This cannot be undone.</p>
+            <h3>Confirm Deletion</h3>
+            <p style="color: #64748b; margin: 10px 0;">This will permanently remove the record from the server.</p>
             <div class="modal-btns">
                 <button style="background:#e2e8f0" onclick="closeModal()">Cancel</button>
-                <button style="background:var(--danger); color:white" id="confirmBtn">Delete</button>
+                <button style="background:var(--danger); color:white" id="confirmBtn">Confirm</button>
             </div>
         </div>
     </div>
 
     <div class="container">
         <header class="card">
-            <h2>Election Portal</h2>
-            <p class="subtitle">Kivaywa Boys Registry</p>
+            <h2>ELECTION PORTAL</h2>
+            <span class="subtitle">Official Admin Registry</span>
         </header>
 
         <div class="admin-grid">
             <div class="card">
-                <h4 style="margin-bottom:15px">1. Register Posts</h4>
-                <label style="font-size: 0.7rem; font-weight: 800;">NEW POSITION</label>
-                <input type="text" id="postInput" placeholder="e.g. Games Prefect">
-                <button class="btn btn-green" style="width: 100%" onclick="savePost()">Add Position</button>
+                <h3 style="font-size: 1rem; color: var(--green)">Position Registry</h3>
+                <label>NEW POSITION NAME</label>
+                <input type="text" id="postInput" placeholder="e.g. School Captain">
+                <button class="btn btn-green" onclick="savePost()" style="margin-top: 10px;">Register Position</button>
                 
-                <div class="scroll-list" id="postList" style="margin-top: 15px;"></div>
+                <div class="scroll-list" id="postList"></div>
             </div>
 
             <div class="card">
-                <h4 style="margin-bottom:15px">2. Register Candidates</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <h3 style="font-size: 1rem; color: var(--maroon)">Candidate Registry</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div>
-                        <label style="font-size: 0.7rem; font-weight: 800;">STUDENT NAME</label>
-                        <input type="text" id="candName" placeholder="Full Name">
+                        <label>FULL NAME</label>
+                        <input type="text" id="candName" placeholder="Enter name...">
                     </div>
                     <div>
-                        <label style="font-size: 0.7rem; font-weight: 800;">SELECT POST</label>
+                        <label>ASSIGN POST</label>
                         <select id="postSelect">
-                            <option value="">-- Choose --</option>
+                            <option value="">-- Select Position --</option>
                         </select>
                     </div>
                 </div>
-                <button class="btn btn-maroon" style="width: 100%" onclick="saveCandidate()">Register Candidate</button>
+                <button class="btn btn-maroon" onclick="saveCandidate()" style="margin-top: 15px;">Add Candidate</button>
 
-                <div class="scroll-list" id="candList" style="margin-top: 15px;"></div>
+                <div class="scroll-list" id="candList"></div>
             </div>
         </div>
     </div>
@@ -144,17 +145,15 @@
 
         let deleteTarget = { id: null, type: null };
 
-        // APP NOTIFICATIONS
         function notify(msg) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.innerHTML = `<span>✔</span> ${msg}`;
+            toast.innerHTML = `<span>⚡</span> ${msg}`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
 
-        // MODAL LOGIC
         function openConfirm(id, type) {
             deleteTarget = { id, type };
             document.getElementById('modalOverlay').style.display = 'flex';
@@ -163,52 +162,55 @@
 
         document.getElementById('confirmBtn').onclick = async () => {
             const url = deleteTarget.type === 'post' ? API_POSTS : API_CANDIDATES;
-            await fetch(`${url}/${deleteTarget.id}`, { method: 'DELETE' });
-            notify("Deleted successfully");
-            closeModal();
-            loadData();
+            try {
+                await fetch(`${url}/${deleteTarget.id}`, { method: 'DELETE' });
+                notify("Entry Deleted Successfully");
+                closeModal();
+                loadData();
+            } catch (e) { notify("Error deleting entry"); }
         };
 
-        // DATA LOGIC
         async function loadData() {
-            const [postRes, candRes] = await Promise.all([fetch(API_POSTS), fetch(API_CANDIDATES)]);
-            const posts = await postRes.json();
-            const cands = await candRes.json();
+            try {
+                const [pRes, cRes] = await Promise.all([fetch(API_POSTS), fetch(API_CANDIDATES)]);
+                const posts = await pRes.json();
+                const cands = await cRes.json();
 
-            // Render Posts
-            const postList = document.getElementById('postList');
-            const postSelect = document.getElementById('postSelect');
-            postList.innerHTML = '';
-            postSelect.innerHTML = '<option value="">-- Choose --</option>';
-            posts.forEach(p => {
-                postList.innerHTML += `<div class="list-item"><span>${p.name}</span><span class="del-btn" onclick="openConfirm('${p._id}', 'post')">&times;</span></div>`;
-                postSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
-            });
+                // Update Post Section
+                const postList = document.getElementById('postList');
+                const postSelect = document.getElementById('postSelect');
+                postList.innerHTML = '';
+                postSelect.innerHTML = '<option value="">-- Select Position --</option>';
+                posts.forEach(p => {
+                    postList.innerHTML += `<div class="list-item"><span><b>${p.name}</b></span><span class="del-btn" onclick="openConfirm('${p._id}', 'post')">&times;</span></div>`;
+                    postSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
+                });
 
-            // Render Candidates
-            const candList = document.getElementById('candList');
-            candList.innerHTML = '';
-            cands.forEach(c => {
-                candList.innerHTML += `<div class="list-item"><span><b>${c.name}</b> (${c.post})</span><span class="del-btn" onclick="openConfirm('${c._id}', 'candidate')">&times;</span></div>`;
-            });
+                // Update Candidate Section
+                const candList = document.getElementById('candList');
+                candList.innerHTML = '';
+                cands.forEach(c => {
+                    candList.innerHTML += `<div class="list-item"><span><b>${c.name}</b> <small style="color:var(--green)">(${c.post})</small></span><span class="del-btn" onclick="openConfirm('${c._id}', 'candidate')">&times;</span></div>`;
+                });
+            } catch (e) { console.error("Load failed", e); }
         }
 
         async function savePost() {
             const name = document.getElementById('postInput').value.trim();
-            if(!name) return;
+            if(!name) return notify("Enter position name!");
             await fetch(API_POSTS, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ name })});
             document.getElementById('postInput').value = '';
-            notify("Position Registered");
+            notify("Position saved to server");
             loadData();
         }
 
         async function saveCandidate() {
             const name = document.getElementById('candName').value.trim();
             const post = document.getElementById('postSelect').value;
-            if(!name || !post) return;
+            if(!name || !post) return notify("Fill all candidate fields!");
             await fetch(API_CANDIDATES, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ name, post })});
             document.getElementById('candName').value = '';
-            notify("Candidate Registered");
+            notify("Candidate added to server");
             loadData();
         }
 
