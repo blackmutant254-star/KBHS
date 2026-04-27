@@ -4,7 +4,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 3000;
+// Use the port provided by Render, or default to 3000 for local testing
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 const mongoURI = "mongodb+srv://MedAI:Griff2009.@medai.qjvleue.mongodb.net/kivaywaDB?retryWrites=true&w=majority";
 
 mongoose.connect(mongoURI)
-    .then(() => console.log("✅ Kivaywa DB Connected"))
+    .then(() => console.log("✅ Kivaywa DB Connected Successfully"))
     .catch(err => console.error("❌ Connection error:", err));
 
 // --- 2. SCHEMAS ---
@@ -29,48 +30,58 @@ const ClassModel = mongoose.model('Class', new mongoose.Schema({
     className: { type: String, unique: true }
 }));
 
-// NEW: Vote Schema (Stores votes per candidate per class)
+// UPDATED: Vote Schema to use resultKey
+// This matches the frontend logic: `${post}_${candidateName}_${className}`
 const voteSchema = new mongoose.Schema({
-    post: String,
-    candidateName: String,
-    className: String,
+    resultKey: { type: String, unique: true, required: true },
     votes: { type: Number, default: 0 }
 });
-// Create a unique index so we don't get duplicate rows for the same entry
-voteSchema.index({ post: 1, candidateName: 1, className: 1 }, { unique: true });
 const Vote = mongoose.model('Vote', voteSchema);
 
-// --- 3. ROUTES ---
+// --- 3. CORE ROUTES ---
 
 // CANDIDATES
-app.get('/api/candidates', async (req, res) => res.json(await Candidate.find()));
-app.post('/api/candidates', async (req, res) => res.json(await new Candidate(req.body).save()));
-app.delete('/api/candidates/:id', async (req, res) => res.json(await Candidate.findByIdAndDelete(req.params.id)));
+app.get('/api/candidates', async (req, res) => {
+    try { res.json(await Candidate.find()); } 
+    catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/candidates', async (req, res) => {
+    try { res.json(await new Candidate(req.body).save()); } 
+    catch (e) { res.status(400).json({ error: e.message }); }
+});
 
 // CLASSES
-app.get('/api/classes', async (req, res) => res.json(await ClassModel.find().sort({ className: 1 })));
+app.get('/api/classes', async (req, res) => {
+    try { res.json(await ClassModel.find().sort({ className: 1 })); } 
+    catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 app.post('/api/classes', async (req, res) => {
     try { res.json(await new ClassModel(req.body).save()); } 
-    catch (e) { res.status(400).json({ message: "Class exists" }); }
-});
-app.delete('/api/classes/:id', async (req, res) => res.json(await ClassModel.findByIdAndDelete(req.params.id)));
-
-// --- 4. TALLY / VOTE ROUTES ---
-
-// Get all votes for a specific post
-app.get('/api/votes/:post', async (req, res) => {
-    const votes = await Vote.find({ post: req.params.post });
-    res.json(votes);
+    catch (e) { res.status(400).json({ message: "Class already exists" }); }
 });
 
-// Save or Update a vote
-app.post('/api/votes/update', async (req, res) => {
-    const { post, candidateName, className, votes } = req.body;
+// --- 4. UPDATED TALLY ROUTES (To match Frontend) ---
+
+// GET ALL RESULTS: Matches frontend fetch(`${API_BASE}/results`)
+app.get('/api/results', async (req, res) => {
+    try {
+        const allVotes = await Vote.find();
+        res.json(allVotes);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// UPDATE/POST RESULT: Matches frontend saveVote() function
+app.post('/api/results', async (req, res) => {
+    const { resultKey, votes } = req.body;
     try {
         const updatedVote = await Vote.findOneAndUpdate(
-            { post, candidateName, className }, // Find this specific cell
-            { votes },                          // Update the value
-            { upsert: true, new: true }         // Create it if it doesn't exist
+            { resultKey }, 
+            { votes: parseInt(votes) || 0 }, 
+            { upsert: true, new: true } // Creates it if it doesn't exist
         );
         res.json(updatedVote);
     } catch (err) {
@@ -78,4 +89,7 @@ app.post('/api/votes/update', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`🚀 Server on http://localhost:${PORT}`));
+// --- 5. SERVER START ---
+app.listen(PORT, () => {
+    console.log(`🚀 Kivaywa Server running on port ${PORT}`);
+});
