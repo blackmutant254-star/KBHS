@@ -4,255 +4,287 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-
     <title>Kivaywa Boys | Candidate Registry</title>
     <style>
         :root {
             --maroon: #800000;
+            --maroon-light: #a52a2a;
             --green: #006400;
             --black: #1a1a1a;
-            --gray: #f8f9fa;
+            --gray-bg: #f4f7f6;
             --white: #ffffff;
-            --border: #dee2e6;
+            --border: #e0e0e0;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --radius: 12px;
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--gray);
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--gray-bg);
             margin: 0;
+            padding: 20px;
+            color: var(--black);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
         }
 
-        .back-btn {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            text-decoration: none;
-            color: var(--black);
+        /* --- TOAST SYSTEM --- */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            min-width: 250px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            background: var(--white);
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            z-index: 100;
+            justify-content: space-between;
+            animation: slideInRight 0.4s ease forwards;
         }
 
-        .back-btn:hover {
-            color: var(--maroon);
-            transform: translateX(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        .toast.success { background: var(--green); border-left: 6px solid #00ff00; }
+        .toast.error { background: var(--maroon); border-left: 6px solid #ff4d4d; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .back-btn span {
-            margin-right: 8px;
-            font-size: 1.2rem;
-        }
-
-        .registry-container {
-            width: 95%;
-            max-width: 650px;
-            background: var(--white);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--maroon);
-        }
-
-        h2 {
-            color: var(--black);
-            text-align: center;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--green);
-            font-weight: 600;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
-        .input-group {
+        /* --- NAVIGATION --- */
+        .nav-header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 20px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
+        .nav-btn {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
             font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
             color: var(--black);
-            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
 
+        .nav-btn:hover { background: var(--maroon); color: white; transform: translateY(-2px); }
+
+        /* --- MAIN CARD --- */
+        .registry-card {
+            width: 100%;
+            max-width: 800px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-top: 6px solid var(--maroon);
+        }
+
+        h2 { margin: 0; color: var(--maroon); text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: var(--green); font-weight: 700; font-size: 0.8rem; margin-bottom: 25px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: flex-end;
+        }
+
+        .input-group label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 0.8rem; }
+        
         input, select {
             width: 100%;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            background: #fafafa;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        input:focus, select:focus {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
             outline: none;
-            border-color: var(--maroon);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1);
+            transition: 0.3s;
         }
 
-        .btn-register {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--maroon);
+        input:focus, select:focus { border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(128,0,0,0.1); }
+
+        .btn-add {
+            background: var(--maroon);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1rem;
+            padding: 12px 25px;
+            border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 10px rgba(128, 0, 0, 0.2);
+            height: 48px;
         }
 
-        .btn-register:hover {
-            background-color: #600000;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(128, 0, 0, 0.3);
-        }
-
-        .candidate-list {
-            margin-top: 40px;
-            border-top: 2px dashed var(--border);
-            padding-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .candidate-item {
+        /* --- CANDIDATE LIST --- */
+        .list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--gray);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border-left: 5px solid var(--green);
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .candidate-item.assistant {
-            border-left-color: #555;
-            background: #f0f0f0;
-        }
-
-        .candidate-info b { color: var(--maroon); font-size: 1.1rem; }
-        .post-badge {
-            font-size: 0.75rem;
-            background: #e9ecef;
-            padding: 2px 8px;
-            border-radius: 20px;
-            color: #444;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
-        .tagline {
-            text-align: center;
             margin-top: 30px;
-            font-size: 0.8rem;
-            color: #bbb;
-            letter-spacing: 3px;
-            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-bg);
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
+        .candidate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .candidate-list::-webkit-scrollbar { width: 6px; }
-        .candidate-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        .candidate-item {
+            background: var(--gray-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--green);
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .candidate-item:hover { transform: scale(1.02); background: #ebf0ee; }
+
+        .c-name { display: block; font-weight: 800; color: var(--maroon); margin-bottom: 4px; }
+        .c-post { display: block; font-size: 0.75rem; color: #666; font-weight: 600; text-transform: uppercase; }
+
+        .btn-del {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .btn-del:hover { color: #ff4d4d; }
+
+        /* --- PRINT SECTION --- */
+        #printSection { display: none; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printSection, #printSection * { visibility: visible; }
+            #printSection { 
+                display: block; 
+                position: absolute; 
+                left: 0; top: 0; 
+                width: 100%; 
+                padding: 40px;
+            }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .print-table th, .print-table td { border: 1px solid black; padding: 10px; text-align: left; }
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .nav-header { flex-direction: column; gap: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-btn">
-        <span>←</span> Back to Dashboard
-    </a>
+    <div id="toast-container"></div>
 
-    <div class="registry-container">
+    <div class="nav-header">
+        <a href="dash.html" class="nav-btn"><span>←</span> Dashboard</a>
+        <button onclick="window.print()" class="nav-btn" style="background: var(--black); color: white;">🖨️ Print Registry</button>
+    </div>
+
+    <div class="registry-card">
         <h2>Candidate Registry</h2>
-        <p class="subtitle">Kivaywa Boys Senior School Elections</p>
+        <p class="subtitle">Kivaywa Boys Senior School • Electoral Management</p>
 
-        <div class="input-group">
-            <label>Full Name of Candidate</label>
-            <input type="text" id="candName" placeholder="e.g. John Doe">
-        </div>
-
-        <div class="input-group">
-            <label>Position / Post</label>
-            <select id="candPost">
-                <optgroup label="Core Leadership">
+        <div class="form-grid">
+            <div class="input-group">
+                <label>Candidate Name</label>
+                <input type="text" id="candName" placeholder="Enter Full Name">
+            </div>
+            <div class="input-group">
+                <label>Elective Post</label>
+                <select id="candPost">
                     <option value="School Captain">School Captain</option>
                     <option value="Assistant School Captain">Assistant School Captain</option>
-                    <option value="Deputy Captain">Deputy Captain</option>
-                    <option value="Assistant Deputy Captain">Assistant Deputy Captain</option>
-                </optgroup>
-                <optgroup label="Departments">
                     <option value="Dining Hall Prefect">Dining Hall Prefect</option>
-                    <option value="Assistant Dining Hall Prefect">Assistant Dining Hall Prefect</option>
                     <option value="Games Prefect">Games Prefect</option>
-                    <option value="Assistant Games Prefect">Assistant Games Prefect</option>
                     <option value="Entertainment Prefect">Entertainment Prefect</option>
-                    <option value="Assistant Entertainment Prefect">Assistant Entertainment Prefect</option>
                     <option value="Environment Prefect">Environment Prefect</option>
-                    <option value="Assistant Environment Prefect">Assistant Environment Prefect</option>
-                    <option value="Laboratory Prefect">Laboratory Prefect</option>
-                    <option value="Assistant Laboratory Prefect">Assistant Laboratory Prefect</option>
-                    <option value="Library Prefect">Library Prefect</option>
-                    <option value="Assistant Library Prefect">Assistant Library Prefect</option>
-                    <option value="Overall Dormitory Prefect">Overall Dormitory Prefect</option>
-                    <option value="Assistant Dormitory Prefect">Assistant Dormitory Prefect</option>
-                    <option value="Club and Societies Prefect">Club and Societies Prefect</option>
-                    <option value="Assistant Club/Societies Prefect">Assistant Club/Societies Prefect</option>
-                </optgroup>
-            </select>
+                </select>
+            </div>
+            <button class="btn-add" onclick="registerCandidate()">Add Candidate</button>
         </div>
 
-        <button class="btn-register" onclick="registerCandidate()">Add Candidate to Board</button>
-
-        <div class="candidate-list" id="displayList">
-            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Candidates:</h3>
+        <div class="list-header">
+            <h3 style="margin:0; font-size: 1rem;">Active Candidates</h3>
+            <span id="candCount" style="background: var(--maroon); color:white; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem;">0 Total</span>
         </div>
 
-        <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
+        <div class="candidate-grid" id="displayList">
+            </div>
+    </div>
+
+    <div id="printSection">
+        <center>
+            <h1>KIVAYWA BOYS SENIOR SCHOOL</h1>
+            <h3>OFFICIAL REGISTERED CANDIDATE LIST - 2026</h3>
+            <hr>
+        </center>
+        <table class="print-table" id="printTableBody">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Elective Position</th>
+                    <th>Signature/Clearance</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
     <script>
         const API_URL = 'https://kbhs.onrender.com/api/candidates';
+        let allCandidates = [];
 
-        // Load candidates from MongoDB on startup
+        // TOAST SYSTEM
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${msg}</span><span style="margin-left:15px;cursor:pointer" onclick="this.parentElement.remove()">×</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
         async function fetchCandidates() {
             try {
                 const response = await fetch(API_URL);
-                const candidates = await response.json();
-                updateUI(candidates);
+                allCandidates = await response.json();
+                updateUI();
             } catch (err) {
-                console.error("Failed to fetch candidates:", err);
+                showToast("Server Connection Failed", "error");
             }
         }
 
@@ -262,8 +294,8 @@
             const name = nameInput.value.trim();
             const post = postSelect.value;
 
-            if (name === "") {
-                alert("Please enter the candidate's name.");
+            if (!name) {
+                showToast("Please enter a name", "error");
                 return;
             }
 
@@ -275,51 +307,59 @@
                 });
 
                 if (response.ok) {
+                    showToast(`${name} registered successfully!`);
                     nameInput.value = '';
-                    nameInput.focus();
-                    fetchCandidates(); // Refresh the list
+                    fetchCandidates();
                 }
             } catch (err) {
-                alert("Error saving candidate to database.");
+                showToast("Failed to save candidate", "error");
             }
         }
 
-        function updateUI(candidates) {
+        function updateUI() {
             const listDiv = document.getElementById('displayList');
-            listDiv.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Candidates:</h3>';
+            const printTable = document.querySelector('#printTableBody tbody');
+            const countSpan = document.getElementById('candCount');
+            
+            listDiv.innerHTML = '';
+            printTable.innerHTML = '';
+            countSpan.innerText = `${allCandidates.length} Total`;
 
-            candidates.forEach((c) => {
-                const isAssistant = c.post.toLowerCase().includes('assistant');
+            allCandidates.forEach((c, index) => {
+                // UI Grid
                 const item = document.createElement('div');
-                item.className = `candidate-item ${isAssistant ? 'assistant' : ''}`;
-                
+                item.className = 'candidate-item';
                 item.innerHTML = `
-                    <div class="candidate-info">
-                        <b>${c.name}</b> <br>
-                        <span class="post-badge">${c.post}</span>
-                    </div>
-                    <button onclick="removeCandidate('${c._id}')" style="background:none; border:none; color:#dc3545; font-size: 1.5rem; cursor:pointer; padding: 0 10px;">&times;</button>
+                    <span class="c-name">${c.name}</span>
+                    <span class="c-post">${c.post}</span>
+                    <button class="btn-del" onclick="removeCandidate('${c._id}')">&times;</button>
                 `;
                 listDiv.appendChild(item);
+
+                // Print Table
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${c.name}</td>
+                    <td>${c.post}</td>
+                    <td>________________</td>
+                </tr>`;
+                printTable.innerHTML += row;
             });
         }
 
         async function removeCandidate(id) {
-            if(confirm("Are you sure you want to remove this candidate?")) {
-                try {
-                    const response = await fetch(`${API_URL}/${id}`, {
-                        method: 'DELETE'
-                    });
-                    if (response.ok) {
-                        fetchCandidates();
-                    }
-                } catch (err) {
-                    alert("Error deleting candidate.");
+            if(!confirm("De-register this candidate?")) return;
+            try {
+                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    showToast("Candidate removed", "success");
+                    fetchCandidates();
                 }
+            } catch (err) {
+                showToast("Delete failed", "error");
             }
         }
 
-        // Initial Load
         fetchCandidates();
     </script>
 </body>
