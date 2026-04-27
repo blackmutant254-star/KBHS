@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-
-    <title>Kivaywa Boys | Live Tally</title>
+    <title>Kivaywa Boys | Enterprise Tally System</title>
     <style>
         :root {
             --maroon: #800000;
@@ -14,16 +13,18 @@
             --white: #ffffff;
             --gray: #f4f7f6;
             --gold: #d4af37;
+            --border: #e0e0e0;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--gray);
             margin: 0;
             padding: 20px;
             color: var(--black);
         }
 
+        /* --- UI COMPONENTS --- */
         .back-btn {
             position: fixed;
             top: 20px;
@@ -32,270 +33,284 @@
             color: var(--white);
             background: var(--black);
             padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
             z-index: 1000;
-            transition: 0.3s;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .back-btn:hover { background: var(--maroon); transform: scale(1.05); }
+        .back-btn:hover { background: var(--maroon); }
 
         .container {
-            max-width: 1100px;
-            margin: 60px auto;
+            max-width: 1200px;
+            margin: 40px auto;
             background: var(--white);
             padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 4px solid var(--maroon);
-            padding-bottom: 20px;
-        }
-
-        h1 { text-transform: uppercase; letter-spacing: 2px; margin: 0; }
-        .subtitle { color: var(--green); font-weight: bold; }
-
-        .control-panel {
             display: flex;
-            gap: 20px;
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 15px;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--maroon);
+            padding-bottom: 20px;
             margin-bottom: 30px;
+        }
+
+        .header-title h1 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: var(--green); font-weight: 600; margin-top: 5px; }
+
+        /* --- CONTROLS --- */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            border: 1px solid #ddd;
-        }
-
-        select {
-            padding: 12px 25px;
-            border-radius: 10px;
-            border: 2px solid var(--maroon);
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .table-wrapper { overflow-x: auto; margin-top: 20px; min-height: 200px; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        th {
-            background: var(--black);
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .class-col { font-weight: bold; color: var(--green); width: 150px; background: #f9f9f9; }
-
-        .vote-input {
-            width: 80px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            background: #f8f9fa;
+            padding: 20px;
             border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1rem;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .select-group { display: flex; align-items: center; gap: 15px; }
+        
+        select {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-size: 1rem;
+            font-weight: 500;
+            min-width: 250px;
+        }
+
+        .btn-print {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             transition: 0.2s;
         }
 
-        .vote-input:focus { 
-            border-color: var(--green); 
-            outline: none; 
-            background: #e8f5e9;
-            box-shadow: 0 0 5px rgba(0,100,0,0.2);
+        .btn-print:hover { background: #004d00; transform: translateY(-1px); }
+        .btn-print:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- TABLE STYLE --- */
+        .table-wrapper { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+        
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: #f1f1f1; color: var(--black); padding: 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; }
+        td { padding: 12px 15px; border-bottom: 1px solid #eee; }
+        
+        .class-col { font-weight: 700; color: var(--maroon); background: #fafafa; border-right: 1px solid #eee; }
+        
+        .vote-input {
+            width: 70px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
         }
 
-        .total-row {
-            background: #fff8e1;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: var(--maroon);
-        }
+        .total-row { background: #fffdf2; font-weight: 800; color: var(--maroon); font-size: 1.1rem; }
 
+        /* --- WINNER CARD --- */
         .winner-card {
             margin-top: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, var(--maroon), #400000);
+            padding: 20px;
+            background: var(--black);
             color: white;
-            border-radius: 20px;
-            text-align: center;
+            border-radius: 8px;
             display: none;
-            box-shadow: 0 10px 20px rgba(128,0,0,0.3);
-            border: 2px solid var(--gold);
+            border-left: 10px solid var(--gold);
         }
 
-        .winner-card p { margin: 0; font-size: 0.8rem; opacity: 0.8; letter-spacing: 2px; }
-        .winner-card h2 { margin: 10px 0; color: var(--gold); font-size: 2rem; }
+        .winner-card h2 { margin: 5px 0; color: var(--gold); }
 
-        .tagline { text-align: center; margin-top: 50px; color: #bbb; letter-spacing: 3px; font-weight: bold; font-size: 0.8rem;}
+        /* --- PRINT ONLY STYLES --- */
+        @media print {
+            .back-btn, .action-bar, .vote-input, .back-btn, .tagline { display: none !important; }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
+            .vote-display-print { display: block !important; font-weight: bold; }
+            input { display: none; }
+            .winner-card { display: block !important; background: white !important; color: black !important; border: 1px solid black; }
+            .winner-card h2 { color: black !important; }
+        }
+
+        .vote-display-print { display: none; }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-btn">← DASHBOARD</a>
+    <a href="dash.html" class="back-btn"><span>←</span> DASHBOARD</a>
 
-    <div class="container">
+    <div class="container" id="printableArea">
         <header>
-            <h1>Election Tally Center</h1>
-            <p class="subtitle">Kivaywa Boys Senior School | Live Results</p>
+            <div class="header-title">
+                <h1>Official Election Tally</h1>
+                <p class="subtitle">Kivaywa Boys Senior School | Management System</p>
+            </div>
+            <div style="text-align: right; font-size: 0.8rem; color: #666;">
+                Date: <span id="currentDate"></span>
+            </div>
         </header>
 
-        <div class="control-panel">
-            <label><strong>Viewing Post:</strong></label>
-            <select id="postFilter" onchange="renderTallyTable()">
-                <option value="">-- Choose Position --</option>
-            </select>
+        <div class="action-bar">
+            <div class="select-group">
+                <label><strong>Post Jurisdiction:</strong></label>
+                <select id="postFilter" onchange="renderTallyTable()">
+                    <option value="">-- Select Office --</option>
+                </select>
+            </div>
+            <button class="btn-print" onclick="window.print()" id="printBtn" disabled>
+                🖨️ Print Results Report
+            </button>
         </div>
 
         <div id="tallyArea" class="table-wrapper">
-            <div style="text-align: center; padding: 40px; color: #888;">
-                <p>Please select a position to start the tallying process.</p>
-                <small>Data is pulled from <strong>canreg.html</strong> and <strong>classreg.html</strong></small>
+            <div style="text-align: center; padding: 60px; color: #999;">
+                <p>Awaiting administrative selection of elective post...</p>
             </div>
         </div>
 
         <div id="winnerDisplay" class="winner-card">
-            <p>CURRENT FRONT RUNNER</p>
-            <h2 id="winnerName">Candidate Name</h2>
-            <div id="winnerVotes" style="font-weight: bold; font-size: 1.2rem;">0 Total Votes</div>
+            <small style="text-transform: uppercase; letter-spacing: 2px;">Presumptive Winner</small>
+            <h2 id="winnerName">-</h2>
+            <div id="winnerVotes">0 Total Accumulated Votes</div>
         </div>
 
-        <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
+        <div class="tagline" style="text-align: center; margin-top: 40px; color: #ccc; font-size: 0.7rem; letter-spacing: 4px;">
+            VERIFIED BY KIVAYWA BOYS ELECTORAL BOARD
+        </div>
     </div>
 
     <script>
-        // Fetch data from your other pages
-        let savedCandidates = JSON.parse(localStorage.getItem('candidates')) || [];
-        let savedClasses = JSON.parse(localStorage.getItem('classes')) || [];
-        
-        // Results storage: { "PostName": { "CandidateID-ClassID": value } }
-        let voteResults = JSON.parse(localStorage.getItem('electionResults')) || {};
+        const API_BASE = 'http://localhost:3000/api';
+        let candidates = [];
+        let classes = [];
+        let results = {};
 
-        // 1. Populate Dropdown with Unique Posts
-        const postFilter = document.getElementById('postFilter');
-        const uniquePosts = [...new Set(savedCandidates.map(c => c.post))];
-        
-        uniquePosts.forEach(post => {
-            let opt = document.createElement('option');
-            opt.value = post;
-            opt.innerText = post;
-            postFilter.appendChild(opt);
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-GB', {
+            day: 'numeric', month: 'long', year: 'numeric'
         });
 
-        // 2. Render the Table
+        async function init() {
+            try {
+                const [candRes, classRes, voteRes] = await Promise.all([
+                    fetch(`${API_BASE}/candidates`),
+                    fetch(`${API_BASE}/classes`),
+                    fetch(`${API_BASE}/results`)
+                ]);
+
+                candidates = await candRes.json();
+                classes = await classRes.json();
+                const rawVotes = await voteRes.json();
+                
+                rawVotes.forEach(v => { results[v.resultKey] = v.votes; });
+
+                const postFilter = document.getElementById('postFilter');
+                const uniquePosts = [...new Set(candidates.map(c => c.post))];
+                uniquePosts.forEach(post => {
+                    let opt = new Option(post, post);
+                    postFilter.add(opt);
+                });
+            } catch (err) {
+                console.error("System Initialization Failed", err);
+            }
+        }
+
         function renderTallyTable() {
-            const post = postFilter.value;
+            const post = document.getElementById('postFilter').value;
             const tallyArea = document.getElementById('tallyArea');
-            const winnerDisplay = document.getElementById('winnerDisplay');
+            const printBtn = document.getElementById('printBtn');
             
             if (!post) {
-                tallyArea.innerHTML = '<p style="text-align: center; color: #999;">Select a position to begin.</p>';
-                winnerDisplay.style.display = "none";
+                printBtn.disabled = true;
                 return;
             }
 
-            const candidatesForPost = savedCandidates.filter(c => c.post === post);
-            
-            if (candidatesForPost.length === 0) {
-                tallyArea.innerHTML = "<p style='text-align:center;'>No candidates found for this post.</p>";
-                return;
-            }
+            printBtn.disabled = false;
+            const filteredCands = candidates.filter(c => c.post === post);
 
-            let html = `<table><thead><tr><th>Class / Stream</th>`;
-            candidatesForPost.forEach(c => {
-                html += `<th>${c.name}</th>`;
-            });
+            let html = `<table><thead><tr><th>Stream / Unit</th>`;
+            filteredCands.forEach(c => { html += `<th>${c.name}</th>`; });
             html += `</tr></thead><tbody>`;
 
-            savedClasses.forEach((className, classIndex) => {
-                html += `<tr><td class="class-col">${className}</td>`;
-                candidatesForPost.forEach((c, candIndex) => {
-                    // Unique key for this specific input box
-                    const storageKey = `${post}_${c.name}_${className}`;
-                    const val = voteResults[storageKey] || 0;
-
+            classes.forEach((cls) => {
+                html += `<tr><td class="class-col">${cls.className}</td>`;
+                filteredCands.forEach((c, idx) => {
+                    const rKey = `${post}_${c.name}_${cls.className}`;
+                    const val = results[rKey] || 0;
                     html += `<td>
+                        <span class="vote-display-print">${val}</span>
                         <input type="number" class="vote-input" 
-                               data-cand="${candIndex}" 
-                               data-key="${storageKey}"
-                               value="${val}" min="0" 
-                               oninput="updateVote('${storageKey}', this.value)">
+                               onchange="saveVote('${rKey}', this.value)" 
+                               data-idx="${idx}" value="${val}">
                     </td>`;
                 });
                 html += `</tr>`;
             });
 
-            // Footer for totals
-            html += `<tr class="total-row"><td>TOTAL</td>`;
-            candidatesForPost.forEach((c, candIndex) => {
-                html += `<td id="total-cand-${candIndex}">0</td>`;
-            });
+            html += `<tr class="total-row"><td>AGGREGATE</td>`;
+            filteredCands.forEach((_, i) => { html += `<td id="total-${i}">0</td>`; });
             html += `</tr></tbody></table>`;
 
             tallyArea.innerHTML = html;
-            winnerDisplay.style.display = "block";
+            document.getElementById('winnerDisplay').style.display = 'block';
             calculateTotals();
         }
 
-        // 3. Handle Input and Save to LocalStorage
-        function updateVote(key, value) {
-            voteResults[key] = parseInt(value) || 0;
-            localStorage.setItem('electionResults', JSON.stringify(voteResults));
-            calculateTotals();
+        async function saveVote(key, val) {
+            const votes = parseInt(val) || 0;
+            results[key] = votes;
+            try {
+                await fetch(`${API_BASE}/results`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resultKey: key, votes })
+                });
+                calculateTotals();
+            } catch (e) { alert("Sync Error"); }
         }
 
-        // 4. Sum up columns and find the leader
         function calculateTotals() {
-            const post = postFilter.value;
-            const candidatesForPost = savedCandidates.filter(c => c.post === post);
+            const post = document.getElementById('postFilter').value;
+            const filteredCands = candidates.filter(c => c.post === post);
             const inputs = document.querySelectorAll('.vote-input');
-            let totals = new Array(candidatesForPost.length).fill(0);
+            let totals = new Array(filteredCands.length).fill(0);
 
             inputs.forEach(input => {
-                const candIdx = parseInt(input.getAttribute('data-cand'));
-                const val = parseInt(input.value) || 0;
-                totals[candIdx] += val;
+                const idx = parseInt(input.dataset.idx);
+                totals[idx] += (parseInt(input.value) || 0);
             });
 
-            let maxVotes = -1;
-            let leaderName = "";
+            let topVotes = -1;
+            let winner = "";
 
-            totals.forEach((total, idx) => {
-                document.getElementById(`total-cand-${idx}`).innerText = total;
-                if (total > maxVotes) {
-                    maxVotes = total;
-                    leaderName = candidatesForPost[idx].name;
-                }
+            totals.forEach((t, i) => {
+                document.getElementById(`total-${i}`).innerText = t;
+                if (t > topVotes) { topVotes = t; winner = filteredCands[i].name; }
             });
 
-            // Update Winner Card
-            if (maxVotes > 0) {
-                document.getElementById('winnerName').innerText = leaderName;
-                document.getElementById('winnerVotes').innerText = maxVotes + " Total Votes";
-            } else {
-                document.getElementById('winnerName').innerText = "Waiting for Votes...";
-                document.getElementById('winnerVotes').innerText = "0 Total Votes";
-            }
+            document.getElementById('winnerName').innerText = topVotes > 0 ? winner : "Tallying...";
+            document.getElementById('winnerVotes').innerText = `${topVotes} Verified Votes`;
         }
+
+        init();
     </script>
 </body>
 </html>
