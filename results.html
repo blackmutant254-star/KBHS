@@ -4,197 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-    <title>Kivaywa Boys | Enterprise Tally System</title>
+    <title>Kivaywa Boys | E-Tally System</title>
     <style>
         :root {
             --maroon: #800000;
             --green: #006400;
-            --black: #0a0a0a;
+            --black: #1a1a1a;
             --white: #ffffff;
-            --gray: #f4f7f6;
+            --gray: #f8f9fa;
             --gold: #d4af37;
-            --border: #e0e0e0;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--gray);
             margin: 0;
-            padding: 20px;
+            padding: 10px; /* Reduced for mobile */
             color: var(--black);
+            line-height: 1.5;
         }
 
-        /* --- UI COMPONENTS --- */
+        /* --- NAVIGATION --- */
+        .nav-bar {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+        }
+
         .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
             text-decoration: none;
             color: var(--white);
             background: var(--black);
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.85rem;
-            z-index: 1000;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
 
-        .back-btn:hover { background: var(--maroon); }
+        .back-btn:hover { background: var(--maroon); transform: translateX(-3px); }
 
+        /* --- CONTAINER --- */
         .container {
             max-width: 1200px;
-            margin: 40px auto;
+            margin: 0 auto;
             background: var(--white);
-            padding: 40px;
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow);
         }
 
         header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
-            align-items: flex-end;
-            border-bottom: 2px solid var(--maroon);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            align-items: center;
+            border-bottom: 3px solid var(--maroon);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            gap: 15px;
         }
 
-        .header-title h1 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { color: var(--green); font-weight: 600; margin-top: 5px; }
+        .header-title h1 { margin: 0; font-size: 1.5rem; color: var(--maroon); }
+        .subtitle { color: var(--green); font-weight: 600; font-size: 0.9rem; margin: 0; }
 
         /* --- CONTROLS --- */
         .action-bar {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            background: #f8f9fa;
-            padding: 20px;
+            background: #fff;
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border: 1px solid var(--border);
+            gap: 15px;
         }
 
-        .select-group { display: flex; align-items: center; gap: 15px; }
+        .select-group { display: flex; flex-direction: column; gap: 5px; flex-grow: 1; }
         
         select {
-            padding: 10px 20px;
+            padding: 12px;
             border-radius: 6px;
             border: 1px solid var(--border);
             font-size: 1rem;
-            font-weight: 500;
-            min-width: 250px;
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
         }
 
         .btn-print {
             background: var(--green);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 24px;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             transition: 0.2s;
+            width: 100%; /* Mobile full width */
         }
 
-        .btn-print:hover { background: #004d00; transform: translateY(-1px); }
-        .btn-print:disabled { background: #ccc; cursor: not-allowed; }
+        @media (min-width: 768px) {
+            body { padding: 30px; }
+            .header-title h1 { font-size: 2rem; }
+            .btn-print { width: auto; }
+            .container { padding: 40px; }
+        }
 
-        /* --- TABLE STYLE --- */
-        .table-wrapper { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+        /* --- TABLE RESPONSIVENESS --- */
+        .table-wrapper { 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
         
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th { background: #f1f1f1; color: var(--black); padding: 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; }
-        td { padding: 12px 15px; border-bottom: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background: var(--maroon); color: white; padding: 12px; text-align: left; font-size: 0.8rem; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
         
-        .class-col { font-weight: 700; color: var(--maroon); background: #fafafa; border-right: 1px solid #eee; }
+        .class-col { font-weight: 700; background: #fcfcfc; border-right: 2px solid #eee; }
         
         .vote-input {
-            width: 70px;
+            width: 60px;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 4px;
             text-align: center;
-            font-weight: 700;
-            font-size: 1rem;
+            font-weight: bold;
         }
 
-        .total-row { background: #fffdf2; font-weight: 800; color: var(--maroon); font-size: 1.1rem; }
+        .vote-input:focus { border-color: var(--green); outline: none; }
+
+        .total-row { background: #fff9e6; font-weight: 800; color: var(--maroon); }
 
         /* --- WINNER CARD --- */
         .winner-card {
             margin-top: 30px;
-            padding: 20px;
+            padding: 25px;
             background: var(--black);
             color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             display: none;
-            border-left: 10px solid var(--gold);
+            text-align: center;
+            border-bottom: 6px solid var(--gold);
         }
 
-        .winner-card h2 { margin: 5px 0; color: var(--gold); }
+        .winner-card h2 { margin: 10px 0; color: var(--gold); font-size: 2rem; }
 
-        /* --- PRINT ONLY STYLES --- */
+        /* --- PRINT ONLY --- */
         @media print {
-            .back-btn, .action-bar, .vote-input, .back-btn, .tagline { display: none !important; }
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; padding: 0; }
-            .vote-display-print { display: block !important; font-weight: bold; }
-            input { display: none; }
-            .winner-card { display: block !important; background: white !important; color: black !important; border: 1px solid black; }
-            .winner-card h2 { color: black !important; }
+            .nav-bar, .action-bar, .vote-input, .tagline { display: none !important; }
+            .container { box-shadow: none; border: none; width: 100%; }
+            .vote-display-print { display: block !important; font-size: 1.2rem; font-weight: bold; }
+            .winner-card { display: block !important; background: white !important; color: black !important; border: 2px solid black; }
         }
 
         .vote-display-print { display: none; }
+
+        /* Loading Spinner */
+        #loader { text-align: center; padding: 20px; display: block; }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-btn"><span>←</span> DASHBOARD</a>
+    <nav class="nav-bar">
+        <a href="dash.html" class="back-btn">← DASHBOARD</a>
+    </nav>
 
-    <div class="container" id="printableArea">
+    <div class="container">
         <header>
             <div class="header-title">
                 <h1>Official Election Tally</h1>
                 <p class="subtitle">Kivaywa Boys Senior School | Management System</p>
             </div>
-            <div style="text-align: right; font-size: 0.8rem; color: #666;">
-                Date: <span id="currentDate"></span>
+            <div style="text-align: right; font-size: 0.9rem;">
+                <strong>Date:</strong> <span id="currentDate"></span>
             </div>
         </header>
 
+        <div id="loader">Retrieving encrypted data from server...</div>
+
         <div class="action-bar">
             <div class="select-group">
-                <label><strong>Post Jurisdiction:</strong></label>
+                <label><strong>Select Elective Post:</strong></label>
                 <select id="postFilter" onchange="renderTallyTable()">
-                    <option value="">-- Select Office --</option>
+                    <option value="">-- Choose Office --</option>
                 </select>
             </div>
             <button class="btn-print" onclick="window.print()" id="printBtn" disabled>
-                🖨️ Print Results Report
+                🖨️ Generate Official Report
             </button>
         </div>
 
         <div id="tallyArea" class="table-wrapper">
-            <div style="text-align: center; padding: 60px; color: #999;">
-                <p>Awaiting administrative selection of elective post...</p>
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <p>Please select a post to view live tallies.</p>
             </div>
         </div>
 
         <div id="winnerDisplay" class="winner-card">
-            <small style="text-transform: uppercase; letter-spacing: 2px;">Presumptive Winner</small>
+            <small style="text-transform: uppercase; letter-spacing: 2px; color: #aaa;">Projected Winner</small>
             <h2 id="winnerName">-</h2>
             <div id="winnerVotes">0 Total Accumulated Votes</div>
         </div>
 
-        <div class="tagline" style="text-align: center; margin-top: 40px; color: #ccc; font-size: 0.7rem; letter-spacing: 4px;">
-            VERIFIED BY KIVAYWA BOYS ELECTORAL BOARD
+        <div class="tagline" style="text-align: center; margin-top: 40px; color: #bbb; font-size: 0.65rem; letter-spacing: 3px;">
+            SECURE ENTERPRISE SYSTEM • KIVAYWA BOYS ELECTORAL COMMISSION
         </div>
     </div>
 
@@ -204,32 +225,39 @@
         let classes = [];
         let results = {};
 
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-GB', {
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-KE', {
             day: 'numeric', month: 'long', year: 'numeric'
         });
 
         async function init() {
+            const loader = document.getElementById('loader');
             try {
+                // Fetch data with error handling for each
                 const [candRes, classRes, voteRes] = await Promise.all([
-                    fetch(`${API_BASE}/candidates`),
-                    fetch(`${API_BASE}/classes`),
-                    fetch(`${API_BASE}/results`)
+                    fetch(`${API_BASE}/candidates`).then(r => r.json()),
+                    fetch(`${API_BASE}/classes`).then(r => r.json()),
+                    fetch(`${API_BASE}/results`).then(r => r.json())
                 ]);
 
-                candidates = await candRes.json();
-                classes = await classRes.json();
-                const rawVotes = await voteRes.json();
+                candidates = candRes;
+                classes = classRes;
                 
-                rawVotes.forEach(v => { results[v.resultKey] = v.votes; });
+                // Map results by key for O(1) lookup
+                voteRes.forEach(v => { 
+                    if(v.resultKey) results[v.resultKey] = v.votes; 
+                });
 
                 const postFilter = document.getElementById('postFilter');
                 const uniquePosts = [...new Set(candidates.map(c => c.post))];
+                
                 uniquePosts.forEach(post => {
-                    let opt = new Option(post, post);
-                    postFilter.add(opt);
+                    postFilter.add(new Option(post, post));
                 });
+
+                loader.style.display = 'none';
             } catch (err) {
-                console.error("System Initialization Failed", err);
+                console.error("Critical System Failure:", err);
+                loader.innerHTML = `<b style="color:red">Connection Error: Could not reach the tally server.</b>`;
             }
         }
 
@@ -239,14 +267,16 @@
             const printBtn = document.getElementById('printBtn');
             
             if (!post) {
+                tallyArea.innerHTML = `<div style="text-align:center;padding:40px;">Select a post to display data.</div>`;
                 printBtn.disabled = true;
+                document.getElementById('winnerDisplay').style.display = 'none';
                 return;
             }
 
             printBtn.disabled = false;
             const filteredCands = candidates.filter(c => c.post === post);
 
-            let html = `<table><thead><tr><th>Stream / Unit</th>`;
+            let html = `<table><thead><tr><th>Class Stream</th>`;
             filteredCands.forEach(c => { html += `<th>${c.name}</th>`; });
             html += `</tr></thead><tbody>`;
 
@@ -258,15 +288,16 @@
                     html += `<td>
                         <span class="vote-display-print">${val}</span>
                         <input type="number" class="vote-input" 
-                               onchange="saveVote('${rKey}', this.value)" 
-                               data-idx="${idx}" value="${val}">
+                               oninput="saveVote('${rKey}', this.value)" 
+                               data-idx="${idx}" value="${val}" min="0">
                     </td>`;
                 });
                 html += `</tr>`;
             });
 
-            html += `<tr class="total-row"><td>AGGREGATE</td>`;
-            filteredCands.forEach((_, i) => { html += `<td id="total-${i}">0</td>`; });
+            // Aggregate Row
+            html += `<tr class="total-row"><td>TOTALS</td>`;
+            filteredCands.forEach((_, i) => { html += `<td id="total-${i}" style="font-size:1.2rem;">0</td>`; });
             html += `</tr></tbody></table>`;
 
             tallyArea.innerHTML = html;
@@ -274,17 +305,21 @@
             calculateTotals();
         }
 
+        // Debounce or immediate save
         async function saveVote(key, val) {
             const votes = parseInt(val) || 0;
             results[key] = votes;
+            calculateTotals(); // Visual update first for UX
+
             try {
                 await fetch(`${API_BASE}/results`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ resultKey: key, votes })
                 });
-                calculateTotals();
-            } catch (e) { alert("Sync Error"); }
+            } catch (e) {
+                console.warn("Background sync failed. Data cached locally.");
+            }
         }
 
         function calculateTotals() {
@@ -300,13 +335,30 @@
 
             let topVotes = -1;
             let winner = "";
+            let isTie = false;
 
             totals.forEach((t, i) => {
-                document.getElementById(`total-${i}`).innerText = t;
-                if (t > topVotes) { topVotes = t; winner = filteredCands[i].name; }
+                const cell = document.getElementById(`total-${i}`);
+                if(cell) cell.innerText = t;
+                
+                if (t > topVotes) {
+                    topVotes = t;
+                    winner = filteredCands[i].name;
+                    isTie = false;
+                } else if (t === topVotes && t > 0) {
+                    isTie = true;
+                }
             });
 
-            document.getElementById('winnerName').innerText = topVotes > 0 ? winner : "Tallying...";
+            const winnerHeading = document.getElementById('winnerName');
+            if (topVotes <= 0) {
+                winnerHeading.innerText = "Awaiting Data";
+            } else if (isTie) {
+                winnerHeading.innerText = "Draw / Tie";
+            } else {
+                winnerHeading.innerText = winner;
+            }
+            
             document.getElementById('winnerVotes').innerText = `${topVotes} Verified Votes`;
         }
 
