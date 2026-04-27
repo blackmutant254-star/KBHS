@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // --- 1. DATABASE CONNECTION ---
-const mongoURI = "mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@cluster0.mongodb.net/kivaywaDB?retryWrites=true&w=majority";
+const mongoURI = "mongodb+srv://MedAI:Griff2009.@medai.qjvleue.mongodb.net/kivaywaDB?retryWrites=true&w=majority";
 
 mongoose.connect(mongoURI)
     .then(() => console.log("✅ Kivaywa DB Connected"))
