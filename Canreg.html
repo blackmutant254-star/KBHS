@@ -4,260 +4,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-    <title>Kivaywa Boys | Candidate Registry</title>
+    <title>Kivaywa Boys | Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --maroon: #800000;
-            --maroon-light: #a52a2a;
+            --maroon-hover: #5d0000;
             --green: #006400;
-            --black: #1a1a1a;
-            --gray-bg: #f4f7f6;
+            --black: #0f172a;
             --white: #ffffff;
-            --border: #e0e0e0;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --radius: 12px;
+            --glass: rgba(255, 255, 255, 0.95);
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: var(--gray-bg);
-            margin: 0;
-            padding: 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(at top left, #f8fafc, #f1f5f9);
             color: var(--black);
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
         }
 
         /* --- TOAST SYSTEM --- */
-        #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
-
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
         .toast {
-            min-width: 250px;
-            padding: 15px 20px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background: var(--white);
+            color: var(--black);
+            padding: 16px 24px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-lg);
+            border-left: 5px solid var(--maroon);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            animation: slideInRight 0.4s ease forwards;
+            min-width: 300px;
+            font-weight: 600;
+            animation: slideIn 0.3s ease-out;
         }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        .toast.success { background: var(--green); border-left: 6px solid #00ff00; }
-        .toast.error { background: var(--maroon); border-left: 6px solid #ff4d4d; }
+        /* --- LAYOUT --- */
+        .container { width: 100%; max-width: 900px; }
 
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* --- NAVIGATION --- */
         .nav-header {
-            width: 100%;
-            max-width: 800px;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
-        .nav-btn {
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
+        .btn {
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 700;
             font-size: 0.85rem;
-            transition: 0.3s;
+            transition: 0.2s all;
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 8px;
-            background: white;
-            color: var(--black);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            padding: 10px 18px;
         }
 
-        .nav-btn:hover { background: var(--maroon); color: white; transform: translateY(-2px); }
+        .btn-primary { background: var(--maroon); color: white; border: none; }
+        .btn-primary:hover { background: var(--maroon-hover); transform: translateY(-1px); }
 
-        /* --- MAIN CARD --- */
-        .registry-card {
-            width: 100%;
-            max-width: 800px;
-            background: var(--white);
-            padding: 30px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border-top: 6px solid var(--maroon);
+        .card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--white);
+            backdrop-filter: blur(10px);
         }
 
-        h2 { margin: 0; color: var(--maroon); text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { color: var(--green); font-weight: 700; font-size: 0.8rem; margin-bottom: 25px; }
+        header h2 { font-size: 1.8rem; color: var(--maroon); font-weight: 800; }
+        .subtitle { color: var(--green); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 800; margin-bottom: 30px; }
 
-        .form-grid {
+        /* --- FORM STYLING --- */
+        .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 15px;
+            grid-template-columns: 1fr 1fr 150px;
+            gap: 16px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
             margin-bottom: 30px;
-            align-items: flex-end;
         }
 
-        .input-group label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 0.8rem; }
-        
+        .input-box label { display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 6px; }
         input, select {
             width: 100%;
             padding: 12px;
-            border: 2px solid var(--border);
             border-radius: 8px;
+            border: 1.5px solid var(--border);
             font-size: 0.95rem;
             outline: none;
-            transition: 0.3s;
+            background: white;
         }
-
-        input:focus, select:focus { border-color: var(--maroon); box-shadow: 0 0 0 3px rgba(128,0,0,0.1); }
-
-        .btn-add {
-            background: var(--maroon);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            height: 48px;
-        }
+        input:focus { border-color: var(--maroon); ring: 2px var(--maroon); }
 
         /* --- CANDIDATE LIST --- */
-        .list-header {
+        .list-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 30px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--gray-bg);
+            margin-bottom: 20px;
         }
+
+        #searchBox { width: 250px; padding: 8px 15px; border-radius: 20px; }
 
         .candidate-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
         }
 
-        .candidate-item {
-            background: var(--gray-bg);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid var(--green);
+        .candidate-card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
             position: relative;
             transition: 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .candidate-item:hover { transform: scale(1.02); background: #ebf0ee; }
+        .candidate-card:hover { border-color: var(--maroon); box-shadow: var(--shadow-md); transform: translateY(-3px); }
 
-        .c-name { display: block; font-weight: 800; color: var(--maroon); margin-bottom: 4px; }
-        .c-post { display: block; font-size: 0.75rem; color: #666; font-weight: 600; text-transform: uppercase; }
-
-        .btn-del {
+        .c-name { font-weight: 800; color: var(--black); font-size: 1.1rem; }
+        .c-post { font-size: 0.75rem; color: var(--green); font-weight: 700; margin-top: 4px; }
+        
+        .btn-trash {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
+            top: 15px;
+            right: 15px;
+            background: #fff1f2;
+            color: #e11d48;
             border: none;
-            color: #ccc;
+            padding: 6px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1.2rem;
+            opacity: 0;
+            transition: 0.2s;
         }
+        .candidate-card:hover .btn-trash { opacity: 1; }
 
-        .btn-del:hover { color: #ff4d4d; }
+        /* Empty State */
+        .empty-state { text-align: center; padding: 40px; color: #94a3b8; grid-column: 1 / -1; }
 
-        /* --- PRINT SECTION --- */
+        /* --- PRINT --- */
         #printSection { display: none; }
-
         @media print {
             body * { visibility: hidden; }
             #printSection, #printSection * { visibility: visible; }
-            #printSection { 
-                display: block; 
-                position: absolute; 
-                left: 0; top: 0; 
-                width: 100%; 
-                padding: 40px;
-            }
-            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            .print-table th, .print-table td { border: 1px solid black; padding: 10px; text-align: left; }
+            #printSection { display: block; position: absolute; left: 0; top: 0; width: 100%; padding: 40px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+            th, td { border: 1px solid #000; padding: 12px; text-align: left; }
         }
 
-        /* Responsive Fixes */
-        @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .nav-header { flex-direction: column; gap: 10px; }
-        }
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div id="toast-container"></div>
 
-    <div class="nav-header">
-        <a href="dash.html" class="nav-btn"><span>←</span> Dashboard</a>
-        <button onclick="window.print()" class="nav-btn" style="background: var(--black); color: white;">🖨️ Print Registry</button>
-    </div>
-
-    <div class="registry-card">
-        <h2>Candidate Registry</h2>
-        <p class="subtitle">Kivaywa Boys Senior School • Electoral Management</p>
-
-        <div class="form-grid">
-            <div class="input-group">
-                <label>Candidate Name</label>
-                <input type="text" id="candName" placeholder="Enter Full Name">
-            </div>
-            <div class="input-group">
-                <label>Elective Post</label>
-                <select id="candPost">
-                    <option value="School Captain">School Captain</option>
-                    <option value="Assistant School Captain">Assistant School Captain</option>
-                    <option value="Dining Hall Prefect">Dining Hall Prefect</option>
-                    <option value="Games Prefect">Games Prefect</option>
-                    <option value="Entertainment Prefect">Entertainment Prefect</option>
-                    <option value="Environment Prefect">Environment Prefect</option>
-                </select>
-            </div>
-            <button class="btn-add" onclick="registerCandidate()">Add Candidate</button>
+    <div class="container">
+        <div class="nav-header">
+            <a href="dash.html" class="btn" style="background: white;">← Dashboard</a>
+            <button onclick="window.print()" class="btn btn-primary">🖨️ Generate Reports</button>
         </div>
 
-        <div class="list-header">
-            <h3 style="margin:0; font-size: 1rem;">Active Candidates</h3>
-            <span id="candCount" style="background: var(--maroon); color:white; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem;">0 Total</span>
-        </div>
+        <div class="card">
+            <header>
+                <h2>Election Portal</h2>
+                <p class="subtitle">Kivaywa Boys Senior School Registry</p>
+            </header>
 
-        <div class="candidate-grid" id="displayList">
+            <div class="form-row">
+                <div class="input-box">
+                    <label>CANDIDATE NAME</label>
+                    <input type="text" id="candName" placeholder="Full legal name...">
+                </div>
+                <div class="input-box">
+                    <label>POST CATEGORY</label>
+                    <select id="candPost">
+                        <option value="School Captain">School Captain</option>
+                        <option value="Deputy Captain">Deputy Captain</option>
+                        <option value="Dining Hall Prefect">Dining Hall Prefect</option>
+                        <option value="Games Prefect">Games Prefect</option>
+                        <option value="Entertainment Prefect">Entertainment Prefect</option>
+                        <option value="Environment Prefect">Environment Prefect</option>
+                        <option value="Library Prefect">Library Prefect</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" style="height: 46px; align-self: flex-end;" onclick="registerCandidate()">Add Member</button>
             </div>
+
+            <div class="list-controls">
+                <h3 style="font-size: 0.9rem;">Board of Candidates (<span id="count">0</span>)</h3>
+                <input type="text" id="searchBox" placeholder="Quick search..." oninput="filterCandidates()">
+            </div>
+
+            <div class="candidate-grid" id="displayList">
+                </div>
+        </div>
     </div>
 
     <div id="printSection">
-        <center>
-            <h1>KIVAYWA BOYS SENIOR SCHOOL</h1>
-            <h3>OFFICIAL REGISTERED CANDIDATE LIST - 2026</h3>
-            <hr>
-        </center>
-        <table class="print-table" id="printTableBody">
+        <h1 style="text-align: center;">KIVAYWA BOYS SENIOR SCHOOL</h1>
+        <h2 style="text-align: center; color: #555;">2026 OFFICIAL CANDIDATE BALLOT LIST</h2>
+        <p style="text-align: center;">Generated on: <span id="printDate"></span></p>
+        <table id="printTable">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Full Name</th>
-                    <th>Elective Position</th>
-                    <th>Signature/Clearance</th>
+                    <th>S/N</th>
+                    <th>Candidate Full Name</th>
+                    <th>Post applied for</th>
+                    <th>Verification Signature</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -266,98 +241,93 @@
 
     <script>
         const API_URL = 'https://kbhs.onrender.com/api/candidates';
-        let allCandidates = [];
+        let candidates = [];
 
-        // TOAST SYSTEM
-        function showToast(msg, type = 'success') {
+        function showToast(msg) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<span>${msg}</span><span style="margin-left:15px;cursor:pointer" onclick="this.parentElement.remove()">×</span>`;
+            toast.className = 'toast';
+            toast.innerHTML = `<span>${msg}</span><button style="background:none;border:none;cursor:pointer" onclick="this.parentElement.remove()">✕</button>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
         }
 
         async function fetchCandidates() {
             try {
-                const response = await fetch(API_URL);
-                allCandidates = await response.json();
-                updateUI();
+                const res = await fetch(API_URL);
+                candidates = await res.json();
+                renderUI(candidates);
             } catch (err) {
-                showToast("Server Connection Failed", "error");
+                showToast("Connection Error: Check server.");
             }
         }
 
-        async function registerCandidate() {
-            const nameInput = document.getElementById('candName');
-            const postSelect = document.getElementById('candPost');
-            const name = nameInput.value.trim();
-            const post = postSelect.value;
+        function renderUI(data) {
+            const grid = document.getElementById('displayList');
+            const tableBody = document.querySelector('#printTable tbody');
+            const count = document.getElementById('count');
+            document.getElementById('printDate').innerText = new Date().toLocaleString();
+            
+            grid.innerHTML = '';
+            tableBody.innerHTML = '';
+            count.innerText = data.length;
 
-            if (!name) {
-                showToast("Please enter a name", "error");
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="empty-state">No candidates found in the registry.</div>';
                 return;
             }
 
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, post })
-                });
-
-                if (response.ok) {
-                    showToast(`${name} registered successfully!`);
-                    nameInput.value = '';
-                    fetchCandidates();
-                }
-            } catch (err) {
-                showToast("Failed to save candidate", "error");
-            }
-        }
-
-        function updateUI() {
-            const listDiv = document.getElementById('displayList');
-            const printTable = document.querySelector('#printTableBody tbody');
-            const countSpan = document.getElementById('candCount');
-            
-            listDiv.innerHTML = '';
-            printTable.innerHTML = '';
-            countSpan.innerText = `${allCandidates.length} Total`;
-
-            allCandidates.forEach((c, index) => {
-                // UI Grid
-                const item = document.createElement('div');
-                item.className = 'candidate-item';
-                item.innerHTML = `
+            data.forEach((c, idx) => {
+                // Card UI
+                const card = document.createElement('div');
+                card.className = 'candidate-card';
+                card.innerHTML = `
                     <span class="c-name">${c.name}</span>
                     <span class="c-post">${c.post}</span>
-                    <button class="btn-del" onclick="removeCandidate('${c._id}')">&times;</button>
+                    <button class="btn-trash" onclick="removeCandidate('${c._id}')">Delete</button>
                 `;
-                listDiv.appendChild(item);
+                grid.appendChild(card);
 
                 // Print Table
-                const row = `<tr>
-                    <td>${index + 1}</td>
-                    <td>${c.name}</td>
-                    <td>${c.post}</td>
-                    <td>________________</td>
-                </tr>`;
-                printTable.innerHTML += row;
+                const row = `<tr><td>${idx+1}</td><td>${c.name}</td><td>${c.post}</td><td></td></tr>`;
+                tableBody.innerHTML += row;
             });
         }
 
-        async function removeCandidate(id) {
-            if(!confirm("De-register this candidate?")) return;
-            try {
-                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-                if (response.ok) {
-                    showToast("Candidate removed", "success");
-                    fetchCandidates();
-                }
-            } catch (err) {
-                showToast("Delete failed", "error");
+        async function registerCandidate() {
+            const name = document.getElementById('candName').value.trim();
+            const post = document.getElementById('candPost').value;
+            if (!name) return showToast("Name is required!");
+
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name, post })
+            });
+
+            if (res.ok) {
+                document.getElementById('candName').value = '';
+                showToast("Candidate Added Successfully");
+                fetchCandidates();
             }
+        }
+
+        async function removeCandidate(id) {
+            if (!confirm("Are you sure?")) return;
+            const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                showToast("Entry Deleted");
+                fetchCandidates();
+            }
+        }
+
+        function filterCandidates() {
+            const term = document.getElementById('searchBox').value.toLowerCase();
+            const filtered = candidates.filter(c => 
+                c.name.toLowerCase().includes(term) || 
+                c.post.toLowerCase().includes(term)
+            );
+            renderUI(filtered);
         }
 
         fetchCandidates();
