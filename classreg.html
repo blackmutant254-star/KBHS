@@ -4,241 +4,239 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-    <title>Kivaywa Boys | Admin Registry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <title>Kivaywa Boys | Class Registry</title>
     <style>
         :root {
             --maroon: #800000;
             --green: #006400;
-            --black: #0f172a;
+            --black: #1a1a1a;
+            --gray: #f8f9fa;
             --white: #ffffff;
-            --gray-bg: #f1f5f9;
-            --border: #e2e8f0;
-            --glass: rgba(255, 255, 255, 0.9);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            --border: #dee2e6;
+            --danger: #dc3545;
         }
 
         body {
-            background: radial-gradient(circle at top right, #f8fafc, #e2e8f0);
-            color: var(--black);
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--gray);
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
 
-        /* --- DASHBOARD NAVIGATION --- */
-        .back-nav {
-            position: fixed;
-            top: 25px;
-            left: 25px;
+        /* --- UI COMPONENTS --- */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
             text-decoration: none;
-            background: var(--white);
-            padding: 12px 20px;
-            border-radius: 14px;
             color: var(--black);
-            font-weight: 700;
-            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: 0.3s;
-            border: 1px solid var(--white);
-            z-index: 1000;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .back-nav:hover {
-            transform: translateX(-5px);
-            background: var(--maroon);
-            color: white;
-        }
+        .back-btn:hover { color: var(--maroon); transform: translateX(-5px); }
 
-        /* --- MAIN REGISTRY CARD --- */
-        .registry-card {
-            width: 100%;
-            max-width: 480px;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
+        .registry-container {
+            width: 95%;
+            max-width: 500px;
+            background: var(--white);
             padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--white);
-            position: relative;
-            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 8px solid var(--green);
         }
 
-        .registry-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 6px;
-            background: linear-gradient(90deg, var(--maroon), var(--green));
-        }
+        h2 { color: var(--black); text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { text-align: center; color: var(--maroon); font-weight: 600; margin-bottom: 30px; font-size: 0.9rem; }
 
-        header { text-align: center; margin-bottom: 30px; }
-        h2 { font-weight: 800; font-size: 1.6rem; letter-spacing: -0.5px; }
-        .subtitle { color: var(--green); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
-
-        /* --- INPUT STYLING --- */
-        .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px; }
-        
-        .input-wrapper { position: relative; }
         input {
             width: 100%;
-            padding: 15px 18px;
-            border-radius: 14px;
-            border: 2px solid var(--border);
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
             font-size: 1rem;
+            background: #fafafa;
             transition: 0.3s;
-            background: white;
-            outline: none;
+            box-sizing: border-box;
         }
 
-        input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(0, 100, 0, 0.1); }
+        input:focus { outline: none; border-color: var(--green); background: #fff; }
 
-        .btn-main {
+        .btn-register {
             width: 100%;
             padding: 16px;
-            background: var(--black);
+            background-color: var(--green);
             color: white;
             border: none;
-            border-radius: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
+            margin-top: 10px;
         }
 
-        .btn-main:hover { transform: translateY(-2px); background: #1e293b; }
-
-        /* --- LIST AREA --- */
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 35px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #f1f5f9;
-        }
-
-        #searchClasses {
-            padding: 8px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            font-size: 0.8rem;
-            width: 150px;
-        }
-
-        .scroll-area {
-            max-height: 280px;
+        .class-list {
+            margin-top: 40px;
+            border-top: 2px dashed var(--border);
+            padding-top: 20px;
+            max-height: 300px;
             overflow-y: auto;
-            margin-top: 15px;
-            padding-right: 5px;
         }
 
-        .class-pill {
+        .class-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            padding: 12px 18px;
-            border-radius: 14px;
+            background: var(--gray);
+            padding: 12px 15px;
+            border-radius: 10px;
             margin-bottom: 10px;
-            border: 1px solid var(--border);
-            animation: slideIn 0.3s ease-out;
-            transition: 0.2s;
+            border-left: 5px solid var(--maroon);
         }
 
-        .class-pill:hover { border-color: var(--maroon); transform: scale(1.02); }
-        .class-info { font-weight: 700; color: var(--black); }
-
-        .btn-del {
-            background: #fff1f2;
-            color: #e11d48;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+        /* --- APP NOTIFICATIONS (TOAST) --- */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--black);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        /* --- SKELETON LOADER --- */
-        .skeleton { height: 50px; background: #e2e8f0; border-radius: 14px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        #toast.show { transform: translateX(-50%) translateY(0); }
 
-        .tagline { text-align: center; margin-top: 30px; font-weight: 800; font-size: 0.65rem; color: #94a3b8; letter-spacing: 4px; }
+        /* --- CUSTOM CONFIRM MODAL --- */
+        #modalOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .modal {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+        }
 
-        /* Custom Scrollbar */
-        .scroll-area::-webkit-scrollbar { width: 4px; }
-        .scroll-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .modal h3 { margin-bottom: 10px; font-size: 1.1rem; }
+        .modal p { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+        .modal-btns { display: flex; gap: 10px; }
+        .modal-btns button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
+        .btn-cancel { background: var(--gray); color: var(--black); }
+        .btn-confirm { background: var(--danger); color: white; }
+
+        .tagline { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #bbb; letter-spacing: 3px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-nav">← <span>Dashboard</span></a>
+    <a href="dash.html" class="back-btn"><span>←</span> Back to Dashboard</a>
 
-    <div class="registry-card">
-        <header>
-            <h2>Class Registry</h2>
-            <p class="subtitle">Kivaywa Boys Secondary</p>
-        </header>
+    <div class="registry-container">
+        <h2>Class Registry</h2>
+        <p class="subtitle">Kivaywa Boys Senior School</p>
 
-        <div class="form-group">
-            <label>IDENTIFY NEW CLASS</label>
-            <div class="input-wrapper">
-                <input type="text" id="className" placeholder="Form 3 West..." onkeypress="if(event.key==='Enter')registerClass()">
-            </div>
+        <div style="margin-bottom: 20px;">
+            <label style="display:block; margin-bottom:8px; font-weight:600;">Class Name</label>
+            <input type="text" id="className" placeholder="e.g. Form 4 North" onkeypress="handleKeyPress(event)">
         </div>
 
-        <button class="btn-main" onclick="registerClass()">Add to Database</button>
+        <button class="btn-register" onclick="registerClass()">Register Class</button>
 
-        <div class="list-header">
-            <h3 style="font-size: 0.85rem; font-weight: 800;">Registry Records</h3>
-            <input type="text" id="searchClasses" placeholder="Filter..." oninput="filterResults()">
-        </div>
-
-        <div class="scroll-area" id="classListDisplay">
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
+        <div class="class-list" id="classListDisplay">
+            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>
         </div>
 
         <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
     </div>
 
+    <div id="toast">Message here</div>
+
+    <div id="modalOverlay">
+        <div class="modal">
+            <h3>Confirm Action</h3>
+            <p>Are you sure you want to remove this class?</p>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-confirm" id="confirmDeleteBtn">Remove</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'https://kbhs.onrender.com/api/classes';
-        let allClassData = [];
+        let pendingDeleteId = null;
+
+        // Custom Notification Function
+        function notify(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        // Custom Modal Logic
+        function openModal(id) {
+            pendingDeleteId = id;
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            pendingDeleteId = null;
+        }
+
+        document.getElementById('confirmDeleteBtn').onclick = function() {
+            if (pendingDeleteId) executeDelete(pendingDeleteId);
+            closeModal();
+        };
 
         async function fetchClasses() {
             try {
                 const response = await fetch(API_URL);
-                allClassData = await response.json();
-                renderUI(allClassData);
+                const classes = await response.json();
+                updateUI(classes);
             } catch (err) {
-                document.getElementById('classListDisplay').innerHTML = "<p style='color:red; font-size:0.8rem; text-align:center;'>Database Offline</p>";
+                console.error("Load failed");
             }
         }
 
         async function registerClass() {
             const input = document.getElementById('className');
             const name = input.value.trim();
-            if (!name) return;
 
-            // Optimistic UI update (feels faster)
-            const btn = document.querySelector('.btn-main');
-            btn.innerText = "Processing...";
-            btn.disabled = true;
+            if (!name) {
+                notify("Please enter a name");
+                return;
+            }
 
             try {
                 const response = await fetch(API_URL, {
@@ -249,47 +247,49 @@
 
                 if (response.ok) {
                     input.value = '';
+                    notify("Class registered successfully!");
                     fetchClasses();
+                } else {
+                    notify("Error saving class");
                 }
-            } finally {
-                btn.innerText = "Add to Database";
-                btn.disabled = false;
+            } catch (err) {
+                notify("Server error");
             }
         }
 
-        function renderUI(data) {
-            const display = document.getElementById('classListDisplay');
-            display.innerHTML = '';
-
-            if(data.length === 0) {
-                display.innerHTML = '<p style="text-align:center; color:#94a3b8; font-size:0.8rem; margin-top:20px;">No classes registered yet.</p>';
-                return;
+        async function executeDelete(id) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    notify("Class removed from registry");
+                    fetchClasses();
+                } else {
+                    notify("Could not delete");
+                }
+            } catch (err) {
+                notify("Connection failed");
             }
+        }
 
-            data.forEach((cls) => {
+        function updateUI(classes) {
+            const display = document.getElementById('classListDisplay');
+            display.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>';
+
+            classes.forEach((cls) => {
                 const div = document.createElement('div');
-                div.className = 'class-pill';
+                div.className = 'class-item';
                 div.innerHTML = `
-                    <span class="class-info">${cls.className}</span>
-                    <button class="btn-del" onclick="removeClass('${cls._id}')">✕</button>
+                    <span class="class-name">${cls.className}</span>
+                    <button onclick="openModal('${cls._id}')" style="background:none; border:none; color:var(--danger); font-size: 1.2rem; cursor:pointer;">&times;</button>
                 `;
                 display.appendChild(div);
             });
         }
 
-        function filterResults() {
-            const term = document.getElementById('searchClasses').value.toLowerCase();
-            const filtered = allClassData.filter(c => c.className.toLowerCase().includes(term));
-            renderUI(filtered);
+        function handleKeyPress(event) {
+            if (event.key === "Enter") registerClass();
         }
 
-        async function removeClass(id) {
-            if (!confirm("Remove this record?")) return;
-            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-            fetchClasses();
-        }
-
-        // Initial Load
         fetchClasses();
     </script>
 </body>
