@@ -4,193 +4,213 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-
-    <title>Kivaywa Boys | Class Registry</title>
+    <title>Kivaywa Boys | Admin Registry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --maroon: #800000;
             --green: #006400;
-            --black: #1a1a1a;
-            --gray: #f8f9fa;
+            --black: #0f172a;
             --white: #ffffff;
-            --border: #dee2e6;
+            --gray-bg: #f1f5f9;
+            --border: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--gray);
-            margin: 0;
+            background: radial-gradient(circle at top right, #f8fafc, #e2e8f0);
+            color: var(--black);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
             padding: 20px;
-            position: relative;
         }
 
-        .back-btn {
-            position: absolute;
-            top: 30px;
-            left: 30px;
+        /* --- DASHBOARD NAVIGATION --- */
+        .back-nav {
+            position: fixed;
+            top: 25px;
+            left: 25px;
             text-decoration: none;
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 14px;
             color: var(--black);
+            font-weight: 700;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            background: var(--white);
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid var(--white);
+            z-index: 1000;
         }
 
-        .back-btn:hover {
-            color: var(--maroon);
+        .back-nav:hover {
             transform: translateX(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            background: var(--maroon);
+            color: white;
         }
 
-        .back-btn span {
-            margin-right: 8px;
-            font-size: 1.2rem;
-        }
-
-        .registry-container {
-            width: 95%;
-            max-width: 500px;
-            background: var(--white);
+        /* --- MAIN REGISTRY CARD --- */
+        .registry-card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--green);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--white);
+            position: relative;
+            overflow: hidden;
         }
 
-        h2 {
-            color: var(--black);
-            text-align: center;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .registry-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, var(--maroon), var(--green));
         }
 
-        .subtitle {
-            text-align: center;
-            color: var(--maroon);
-            font-weight: 600;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
+        header { text-align: center; margin-bottom: 30px; }
+        h2 { font-weight: 800; font-size: 1.6rem; letter-spacing: -0.5px; }
+        .subtitle { color: var(--green); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--black);
-            font-size: 0.9rem;
-        }
-
+        /* --- INPUT STYLING --- */
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px; }
+        
+        .input-wrapper { position: relative; }
         input {
             width: 100%;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
+            padding: 15px 18px;
+            border-radius: 14px;
+            border: 2px solid var(--border);
             font-size: 1rem;
-            background: #fafafa;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        input:focus {
+            transition: 0.3s;
+            background: white;
             outline: none;
-            border-color: var(--green);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(0, 100, 0, 0.1);
         }
 
-        .btn-register {
+        input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(0, 100, 0, 0.1); }
+
+        .btn-main {
             width: 100%;
             padding: 16px;
-            background-color: var(--green);
+            background: var(--black);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 14px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 10px;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.3);
         }
 
-        .btn-register:hover {
-            background-color: #004d00;
-            transform: translateY(-2px);
-        }
+        .btn-main:hover { transform: translateY(-2px); background: #1e293b; }
 
-        .class-list {
-            margin-top: 40px;
-            border-top: 2px dashed var(--border);
-            padding-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .class-item {
+        /* --- LIST AREA --- */
+        .list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--gray);
-            padding: 12px 15px;
+            margin-top: 35px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        #searchClasses {
+            padding: 8px 12px;
             border-radius: 10px;
-            margin-bottom: 10px;
-            border-left: 5px solid var(--maroon);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .class-name {
-            font-weight: 700;
-            color: var(--black);
-            font-size: 1rem;
-        }
-
-        .tagline {
-            text-align: center;
-            margin-top: 30px;
+            border: 1px solid var(--border);
             font-size: 0.8rem;
-            color: #bbb;
-            letter-spacing: 3px;
+            width: 150px;
+        }
+
+        .scroll-area {
+            max-height: 280px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding-right: 5px;
+        }
+
+        .class-pill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            animation: slideIn 0.3s ease-out;
+            transition: 0.2s;
+        }
+
+        .class-pill:hover { border-color: var(--maroon); transform: scale(1.02); }
+        .class-info { font-weight: 700; color: var(--black); }
+
+        .btn-del {
+            background: #fff1f2;
+            color: #e11d48;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
             font-weight: bold;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* --- SKELETON LOADER --- */
+        .skeleton { height: 50px; background: #e2e8f0; border-radius: 14px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        .tagline { text-align: center; margin-top: 30px; font-weight: 800; font-size: 0.65rem; color: #94a3b8; letter-spacing: 4px; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Custom Scrollbar */
+        .scroll-area::-webkit-scrollbar { width: 4px; }
+        .scroll-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-btn">
-        <span>←</span> Back to Dashboard
-    </a>
+    <a href="dash.html" class="back-nav">← <span>Dashboard</span></a>
 
-    <div class="registry-container">
-        <h2>Class Registry</h2>
-        <p class="subtitle">Kivaywa Boys Senior School</p>
+    <div class="registry-card">
+        <header>
+            <h2>Class Registry</h2>
+            <p class="subtitle">Kivaywa Boys Secondary</p>
+        </header>
 
-        <div class="input-group">
-            <label>Class Name</label>
-            <input type="text" id="className" placeholder="e.g. Form 4 North" onkeypress="handleKeyPress(event)">
+        <div class="form-group">
+            <label>IDENTIFY NEW CLASS</label>
+            <div class="input-wrapper">
+                <input type="text" id="className" placeholder="Form 3 West..." onkeypress="if(event.key==='Enter')registerClass()">
+            </div>
         </div>
 
-        <button class="btn-register" onclick="registerClass()">Register Class</button>
+        <button class="btn-main" onclick="registerClass()">Add to Database</button>
 
-        <div class="class-list" id="classListDisplay">
-            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>
+        <div class="list-header">
+            <h3 style="font-size: 0.85rem; font-weight: 800;">Registry Records</h3>
+            <input type="text" id="searchClasses" placeholder="Filter..." oninput="filterResults()">
+        </div>
+
+        <div class="scroll-area" id="classListDisplay">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
         </div>
 
         <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
@@ -198,26 +218,27 @@
 
     <script>
         const API_URL = 'https://kbhs.onrender.com/api/classes';
+        let allClassData = [];
 
-        // Load data from MongoDB on startup
         async function fetchClasses() {
             try {
                 const response = await fetch(API_URL);
-                const classes = await response.json();
-                updateUI(classes);
+                allClassData = await response.json();
+                renderUI(allClassData);
             } catch (err) {
-                console.error("Failed to load classes:", err);
+                document.getElementById('classListDisplay').innerHTML = "<p style='color:red; font-size:0.8rem; text-align:center;'>Database Offline</p>";
             }
         }
 
         async function registerClass() {
             const input = document.getElementById('className');
             const name = input.value.trim();
+            if (!name) return;
 
-            if (name === "") {
-                alert("Please enter a class name.");
-                return;
-            }
+            // Optimistic UI update (feels faster)
+            const btn = document.querySelector('.btn-main');
+            btn.innerText = "Processing...";
+            btn.disabled = true;
 
             try {
                 const response = await fetch(API_URL, {
@@ -228,54 +249,47 @@
 
                 if (response.ok) {
                     input.value = '';
-                    input.focus();
-                    fetchClasses(); // Refresh list from server
-                } else {
-                    const data = await response.json();
-                    alert(data.message || "Error adding class.");
+                    fetchClasses();
                 }
-            } catch (err) {
-                alert("Server connection failed.");
+            } finally {
+                btn.innerText = "Add to Database";
+                btn.disabled = false;
             }
         }
 
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                registerClass();
-            }
-        }
-
-        function updateUI(classes) {
+        function renderUI(data) {
             const display = document.getElementById('classListDisplay');
-            display.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>';
+            display.innerHTML = '';
 
-            classes.forEach((cls) => {
+            if(data.length === 0) {
+                display.innerHTML = '<p style="text-align:center; color:#94a3b8; font-size:0.8rem; margin-top:20px;">No classes registered yet.</p>';
+                return;
+            }
+
+            data.forEach((cls) => {
                 const div = document.createElement('div');
-                div.className = 'class-item';
+                div.className = 'class-pill';
                 div.innerHTML = `
-                    <span class="class-name">${cls.className}</span>
-                    <button onclick="removeClass('${cls._id}')" style="background:none; border:none; color:#dc3545; font-size: 1.2rem; cursor:pointer;">&times;</button>
+                    <span class="class-info">${cls.className}</span>
+                    <button class="btn-del" onclick="removeClass('${cls._id}')">✕</button>
                 `;
                 display.appendChild(div);
             });
         }
 
-        async function removeClass(id) {
-            if (confirm("Remove this class?")) {
-                try {
-                    const response = await fetch(`${API_URL}/${id}`, {
-                        method: 'DELETE'
-                    });
-                    if (response.ok) {
-                        fetchClasses();
-                    }
-                } catch (err) {
-                    alert("Failed to delete.");
-                }
-            }
+        function filterResults() {
+            const term = document.getElementById('searchClasses').value.toLowerCase();
+            const filtered = allClassData.filter(c => c.className.toLowerCase().includes(term));
+            renderUI(filtered);
         }
 
-        // Run on page load
+        async function removeClass(id) {
+            if (!confirm("Remove this record?")) return;
+            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            fetchClasses();
+        }
+
+        // Initial Load
         fetchClasses();
     </script>
 </body>
