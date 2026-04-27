@@ -102,6 +102,7 @@
             font-size: 1rem;
             background: #fafafa;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
 
         input:focus {
@@ -196,13 +197,20 @@
     </div>
 
     <script>
-        // Load data from localStorage on startup
-        let classes = JSON.parse(localStorage.getItem('classes')) || [];
-        
-        // Initial UI render
-        updateUI();
+        const API_URL = 'http://localhost:3000/api/classes';
 
-        function registerClass() {
+        // Load data from MongoDB on startup
+        async function fetchClasses() {
+            try {
+                const response = await fetch(API_URL);
+                const classes = await response.json();
+                updateUI(classes);
+            } catch (err) {
+                console.error("Failed to load classes:", err);
+            }
+        }
+
+        async function registerClass() {
             const input = document.getElementById('className');
             const name = input.value.trim();
 
@@ -211,16 +219,24 @@
                 return;
             }
 
-            if (classes.includes(name)) {
-                alert("This class is already registered.");
-                return;
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ className: name })
+                });
+
+                if (response.ok) {
+                    input.value = '';
+                    input.focus();
+                    fetchClasses(); // Refresh list from server
+                } else {
+                    const data = await response.json();
+                    alert(data.message || "Error adding class.");
+                }
+            } catch (err) {
+                alert("Server connection failed.");
             }
-
-            classes.push(name);
-            saveAndRefresh();
-
-            input.value = '';
-            input.focus();
         }
 
         function handleKeyPress(event) {
@@ -229,31 +245,38 @@
             }
         }
 
-        function saveAndRefresh() {
-            // Save to localStorage
-            localStorage.setItem('classes', JSON.stringify(classes));
-            updateUI();
-        }
-
-        function updateUI() {
+        function updateUI(classes) {
             const display = document.getElementById('classListDisplay');
             display.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>';
 
-            classes.forEach((className, index) => {
+            classes.forEach((cls) => {
                 const div = document.createElement('div');
                 div.className = 'class-item';
                 div.innerHTML = `
-                    <span class="class-name">${className}</span>
-                    <button onclick="removeClass(${index})" style="background:none; border:none; color:#dc3545; font-size: 1.2rem; cursor:pointer;">&times;</button>
+                    <span class="class-name">${cls.className}</span>
+                    <button onclick="removeClass('${cls._id}')" style="background:none; border:none; color:#dc3545; font-size: 1.2rem; cursor:pointer;">&times;</button>
                 `;
                 display.appendChild(div);
             });
         }
 
-        function removeClass(index) {
-            classes.splice(index, 1);
-            saveAndRefresh();
+        async function removeClass(id) {
+            if (confirm("Remove this class?")) {
+                try {
+                    const response = await fetch(`${API_URL}/${id}`, {
+                        method: 'DELETE'
+                    });
+                    if (response.ok) {
+                        fetchClasses();
+                    }
+                } catch (err) {
+                    alert("Failed to delete.");
+                }
+            }
         }
+
+        // Run on page load
+        fetchClasses();
     </script>
 </body>
 </html>
