@@ -4,138 +4,305 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-    <title>Kivaywa Boys | Election Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Kivaywa Boys | Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --maroon: #800000;
-            --maroon-hover: #5d0000;
+            --maroon-light: #fff1f1;
             --green: #006400;
+            --green-light: #f0fdf4;
             --black: #0f172a;
+            --slate-500: #64748b;
+            --slate-200: #e2e8f0;
             --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.95);
-            --border: #e2e8f0;
-            --danger: #e11d48;
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --danger: #ef4444;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(at top left, #f8fafc, #f1f5f9);
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, rgba(128, 0, 0, 0.05) 0px, transparent 50%), 
+                              radial-gradient(at 100% 100%, rgba(0, 100, 0, 0.05) 0px, transparent 50%);
             color: var(--black);
-            padding: 20px;
+            line-height: 1.5;
             min-height: 100vh;
+            padding-bottom: 50px;
         }
 
-        .container { width: 100%; max-width: 1000px; margin: 0 auto; }
+        /* --- NAVIGATION --- */
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--slate-200);
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-        /* --- TOAST --- */
-        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 10000; }
-        .toast {
-            background: var(--black);
+        .back-link {
+            text-decoration: none;
+            color: var(--slate-500);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--maroon); }
+
+        /* --- LAYOUT --- */
+        .container { width: 95%; max-width: 1100px; margin: 0 auto; }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-section h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--black);
+        }
+
+        .header-section .badge {
+            background: var(--maroon);
             color: white;
-            padding: 14px 20px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            box-shadow: var(--shadow-lg);
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            vertical-align: middle;
+        }
+
+        .admin-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1.5fr; 
+            gap: 25px; 
+            align-items: start;
+        }
+
+        /* --- CARDS --- */
+        .card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 24px; 
+            box-shadow: var(--shadow); 
+            border: 1px solid var(--slate-200);
+            transition: transform 0.2s;
+        }
+
+        .card-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 600;
-            animation: slideUp 0.3s ease-out;
+            margin-bottom: 20px;
         }
-        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .card-header i {
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        /* --- FORMS --- */
+        .form-group { margin-bottom: 15px; }
+
+        label { 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            color: var(--slate-500); 
+            margin-bottom: 6px; 
+            display: block; 
+            text-transform: uppercase;
+        }
+
+        input, select { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border-radius: 12px; 
+            border: 1.5px solid var(--slate-200); 
+            outline: none; 
+            transition: 0.2s;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        input:focus, select:focus { 
+            border-color: var(--maroon); 
+            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1);
+        }
+
+        /* --- BUTTONS --- */
+        .btn { 
+            cursor: pointer; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            padding: 12px 20px; 
+            transition: all 0.2s; 
+            border: none; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-maroon { background: var(--maroon); color: white; width: 100%; }
+        .btn-maroon:hover { background: var(--black); transform: translateY(-1px); }
+
+        .btn-green { background: var(--green); color: white; width: 100%; }
+        .btn-green:hover { background: #004d00; transform: translateY(-1px); }
+
+        /* --- LISTS --- */
+        .scroll-list { 
+            margin-top: 20px;
+            max-height: 400px; 
+            overflow-y: auto; 
+            border-top: 1px solid var(--slate-200);
+        }
+
+        .list-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 14px 8px; 
+            border-bottom: 1px solid #f1f5f9;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .list-item:hover { background: #f8fafc; }
+
+        .item-info b { font-weight: 600; color: var(--black); }
+        .item-info span { font-size: 0.85rem; color: var(--slate-500); }
+
+        .del-btn { 
+            height: 32px;
+            width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: var(--slate-500); 
+            cursor: pointer; 
+            transition: all 0.2s;
+        }
+
+        .del-btn:hover { background: var(--maroon-light); color: var(--danger); }
 
         /* --- MODAL --- */
         #modalOverlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            backdrop-filter: blur(4px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            display: none; justify-content: center; align-items: center;
+            z-index: 9999; backdrop-filter: blur(8px);
         }
-        .modal { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; }
-        .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-btns button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
+        .modal { background: white; padding: 32px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; box-shadow: var(--shadow-xl); }
+        .modal i { font-size: 3rem; color: var(--danger); margin-bottom: 1rem; }
 
-        /* --- UI ELEMENTS --- */
-        .card { background: var(--glass); border-radius: 24px; padding: 30px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid var(--white); margin-bottom: 20px; }
-        .admin-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-        
-        header h2 { color: var(--maroon); font-weight: 800; font-size: 1.8rem; text-align: center; }
-        .subtitle { color: var(--green); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: 800; text-align: center; display: block; }
+        /* --- TOAST --- */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+        .toast {
+            background: var(--black); color: white; padding: 16px 24px;
+            border-radius: 16px; margin-bottom: 10px; box-shadow: var(--shadow-xl);
+            display: flex; align-items: center; gap: 12px; font-weight: 500;
+            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        .btn { cursor: pointer; border-radius: 12px; font-weight: 700; padding: 14px; transition: 0.3s; border: none; font-size: 0.9rem; }
-        .btn-maroon { background: var(--maroon); color: white; width: 100%; }
-        .btn-green { background: var(--green); color: white; width: 100%; }
-        .btn:active { transform: scale(0.98); }
-
-        label { font-size: 0.7rem; font-weight: 800; color: #64748b; margin-bottom: 5px; display: block; margin-top: 15px; }
-        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid var(--border); outline: none; transition: 0.2s; }
-        input:focus { border-color: var(--maroon); }
-
-        .scroll-list { max-height: 300px; overflow-y: auto; background: #fff; border-radius: 14px; padding: 10px; border: 1px solid var(--border); margin-top: 15px; }
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f1f5f9; }
-        .list-item:last-child { border-bottom: none; }
-        .del-btn { color: var(--danger); cursor: pointer; font-size: 1.4rem; line-height: 1; }
-
-        @media (max-width: 850px) { .admin-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 850px) { 
+            .admin-grid { grid-template-columns: 1fr; } 
+            .container { padding: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-btn"><span>←</span> Back to Dashboard</a>
+    <nav>
+        <a href="dash.html" class="back-link"><i class="fas fa-arrow-left"></i> Dashboard</a>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" height="30" alt="Logo">
+    </nav>
+
     <div id="toast-container"></div>
 
     <div id="modalOverlay">
         <div class="modal">
-            <h3>Confirm Deletion</h3>
-            <p style="color: #64748b; margin: 10px 0;">This will permanently remove the record from the server.</p>
-            <div class="modal-btns">
-                <button style="background:#e2e8f0" onclick="closeModal()">Cancel</button>
-                <button style="background:var(--danger); color:white" id="confirmBtn">Confirm</button>
+            <i class="fas fa-exclamation-circle"></i>
+            <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Are you sure?</h3>
+            <p style="color: var(--slate-500); margin-bottom: 24px;">This action cannot be undone. This record will be permanently removed.</p>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn" style="flex:1; background: var(--slate-200);" onclick="closeModal()">Cancel</button>
+                <button class="btn" style="flex:1; background: var(--danger); color:white;" id="confirmBtn">Delete Record</button>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <header class="card">
-            <h2>ELECTION PORTAL</h2>
-            <span class="subtitle">Official Admin Registry</span>
-        </header>
+        <div class="header-section">
+            <span class="badge">System Administrator</span>
+            <h2>Election Portal <span style="color:var(--maroon)">Management</span></h2>
+        </div>
 
         <div class="admin-grid">
             <div class="card">
-                <h3 style="font-size: 1rem; color: var(--green)">Position Registry</h3>
-                <label>NEW POSITION NAME</label>
-                <input type="text" id="postInput" placeholder="e.g. School Captain">
-                <button class="btn btn-green" onclick="savePost()" style="margin-top: 10px;">Register Position</button>
+                <div class="card-header">
+                    <i class="fas fa-briefcase" style="background: var(--green-light); color: var(--green);"></i>
+                    <h3 style="font-size: 1.1rem;">Post Registry</h3>
+                </div>
                 
-                <div class="scroll-list" id="postList"></div>
+                <div class="form-group">
+                    <label>Position Title</label>
+                    <input type="text" id="postInput" placeholder="e.g. Games Captain">
+                </div>
+                
+                <button class="btn btn-green" onclick="savePost()">
+                    <i class="fas fa-plus-circle"></i> Add Position
+                </button>
+                
+                <div class="scroll-list" id="postList">
+                    </div>
             </div>
 
             <div class="card">
-                <h3 style="font-size: 1rem; color: var(--maroon)">Candidate Registry</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label>FULL NAME</label>
-                        <input type="text" id="candName" placeholder="Enter name...">
+                <div class="card-header">
+                    <i class="fas fa-user-graduate" style="background: var(--maroon-light); color: var(--maroon);"></i>
+                    <h3 style="font-size: 1.1rem;">Candidate Registry</h3>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Candidate Full Name</label>
+                        <input type="text" id="candName" placeholder="Enter student name...">
                     </div>
-                    <div>
-                        <label>ASSIGN POST</label>
+                    <div class="form-group">
+                        <label>Assigned Post</label>
                         <select id="postSelect">
-                            <option value="">-- Select Position --</option>
+                            <option value="">Choose...</option>
                         </select>
                     </div>
                 </div>
-                <button class="btn btn-maroon" onclick="saveCandidate()" style="margin-top: 15px;">Add Candidate</button>
 
-                <div class="scroll-list" id="candList"></div>
+                <button class="btn btn-maroon" onclick="saveCandidate()">
+                    <i class="fas fa-user-plus"></i> Register Candidate
+                </button>
+
+                <div class="scroll-list" id="candList">
+                    </div>
             </div>
         </div>
     </div>
@@ -143,32 +310,39 @@
     <script>
         const API_CANDIDATES = 'https://kbhs.onrender.com/api/candidates';
         const API_POSTS = 'https://kbhs.onrender.com/api/posts';
-
         let deleteTarget = { id: null, type: null };
 
-        function notify(msg) {
+        function notify(msg, icon = 'check-circle') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.innerHTML = `<span>⚡</span> ${msg}`;
+            toast.innerHTML = `<i class="fas fa-${icon}"></i> ${msg}`;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         function openConfirm(id, type) {
             deleteTarget = { id, type };
-            document.getElementById('modalOverlay').style.display = 'flex';
+            const modal = document.getElementById('modalOverlay');
+            modal.style.display = 'flex';
         }
+
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
 
         document.getElementById('confirmBtn').onclick = async () => {
             const url = deleteTarget.type === 'post' ? API_POSTS : API_CANDIDATES;
             try {
+                const btn = document.getElementById('confirmBtn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
                 await fetch(`${url}/${deleteTarget.id}`, { method: 'DELETE' });
-                notify("Entry Deleted Successfully");
+                notify("Record removed successfully", "trash");
                 closeModal();
                 loadData();
-            } catch (e) { notify("Error deleting entry"); }
+            } catch (e) { notify("Connection Error", "exclamation-triangle"); }
+            finally { document.getElementById('confirmBtn').innerText = 'Delete Record'; }
         };
 
         async function loadData() {
@@ -177,41 +351,59 @@
                 const posts = await pRes.json();
                 const cands = await cRes.json();
 
-                // Update Post Section
+                // Update Posts
                 const postList = document.getElementById('postList');
                 const postSelect = document.getElementById('postSelect');
                 postList.innerHTML = '';
-                postSelect.innerHTML = '<option value="">-- Select Position --</option>';
+                postSelect.innerHTML = '<option value="">Choose...</option>';
+                
                 posts.forEach(p => {
-                    postList.innerHTML += `<div class="list-item"><span><b>${p.name}</b></span><span class="del-btn" onclick="openConfirm('${p._id}', 'post')">&times;</span></div>`;
+                    postList.innerHTML += `
+                        <div class="list-item">
+                            <div class="item-info">
+                                <b>${p.name}</b>
+                            </div>
+                            <div class="del-btn" onclick="openConfirm('${p._id}', 'post')">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                        </div>`;
                     postSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
                 });
 
-                // Update Candidate Section
+                // Update Candidates
                 const candList = document.getElementById('candList');
                 candList.innerHTML = '';
                 cands.forEach(c => {
-                    candList.innerHTML += `<div class="list-item"><span><b>${c.name}</b> <small style="color:var(--green)">(${c.post})</small></span><span class="del-btn" onclick="openConfirm('${c._id}', 'candidate')">&times;</span></div>`;
+                    candList.innerHTML += `
+                        <div class="list-item">
+                            <div class="item-info">
+                                <b>${c.name}</b><br>
+                                <span><i class="fas fa-tag"></i> ${c.post}</span>
+                            </div>
+                            <div class="del-btn" onclick="openConfirm('${c._id}', 'candidate')">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                        </div>`;
                 });
             } catch (e) { console.error("Load failed", e); }
         }
 
         async function savePost() {
             const name = document.getElementById('postInput').value.trim();
-            if(!name) return notify("Enter position name!");
+            if(!name) return notify("Please enter a title", "info-circle");
             await fetch(API_POSTS, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ name })});
             document.getElementById('postInput').value = '';
-            notify("Position saved to server");
+            notify("Position Registered");
             loadData();
         }
 
         async function saveCandidate() {
             const name = document.getElementById('candName').value.trim();
             const post = document.getElementById('postSelect').value;
-            if(!name || !post) return notify("Fill all candidate fields!");
+            if(!name || !post) return notify("Missing information", "info-circle");
             await fetch(API_CANDIDATES, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ name, post })});
             document.getElementById('candName').value = '';
-            notify("Candidate added to server");
+            notify("Candidate Added");
             loadData();
         }
 
