@@ -28,7 +28,6 @@
             position: relative;
         }
 
-        /* --- BACK ARROW STYLE --- */
         .back-btn {
             position: absolute;
             top: 30px;
@@ -104,6 +103,7 @@
             font-size: 1rem;
             background: #fafafa;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
 
         input:focus, select:focus {
@@ -243,13 +243,20 @@
     </div>
 
     <script>
-        // Load candidates from localStorage on startup
-        let candidates = JSON.parse(localStorage.getItem('candidates')) || [];
-        
-        // Initial UI render
-        updateList();
+        const API_URL = 'http://localhost:3000/api/candidates';
 
-        function registerCandidate() {
+        // Load candidates from MongoDB on startup
+        async function fetchCandidates() {
+            try {
+                const response = await fetch(API_URL);
+                const candidates = await response.json();
+                updateUI(candidates);
+            } catch (err) {
+                console.error("Failed to fetch candidates:", err);
+            }
+        }
+
+        async function registerCandidate() {
             const nameInput = document.getElementById('candName');
             const postSelect = document.getElementById('candPost');
             const name = nameInput.value.trim();
@@ -260,26 +267,28 @@
                 return;
             }
 
-            const newCandidate = { name, post };
-            candidates.push(newCandidate);
-            
-            saveAndRefresh();
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, post })
+                });
 
-            nameInput.value = '';
-            nameInput.focus();
+                if (response.ok) {
+                    nameInput.value = '';
+                    nameInput.focus();
+                    fetchCandidates(); // Refresh the list
+                }
+            } catch (err) {
+                alert("Error saving candidate to database.");
+            }
         }
 
-        function saveAndRefresh() {
-            // Save current array to localStorage
-            localStorage.setItem('candidates', JSON.stringify(candidates));
-            updateList();
-        }
-
-        function updateList() {
+        function updateUI(candidates) {
             const listDiv = document.getElementById('displayList');
             listDiv.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Candidates:</h3>';
 
-            candidates.forEach((c, index) => {
+            candidates.forEach((c) => {
                 const isAssistant = c.post.toLowerCase().includes('assistant');
                 const item = document.createElement('div');
                 item.className = `candidate-item ${isAssistant ? 'assistant' : ''}`;
@@ -289,18 +298,29 @@
                         <b>${c.name}</b> <br>
                         <span class="post-badge">${c.post}</span>
                     </div>
-                    <button onclick="removeCandidate(${index})" style="background:none; border:none; color:#dc3545; font-size: 1.5rem; cursor:pointer; padding: 0 10px;">&times;</button>
+                    <button onclick="removeCandidate('${c._id}')" style="background:none; border:none; color:#dc3545; font-size: 1.5rem; cursor:pointer; padding: 0 10px;">&times;</button>
                 `;
                 listDiv.appendChild(item);
             });
         }
 
-        function removeCandidate(index) {
+        async function removeCandidate(id) {
             if(confirm("Are you sure you want to remove this candidate?")) {
-                candidates.splice(index, 1);
-                saveAndRefresh();
+                try {
+                    const response = await fetch(`${API_URL}/${id}`, {
+                        method: 'DELETE'
+                    });
+                    if (response.ok) {
+                        fetchCandidates();
+                    }
+                } catch (err) {
+                    alert("Error deleting candidate.");
+                }
             }
         }
+
+        // Initial Load
+        fetchCandidates();
     </script>
 </body>
 </html>
