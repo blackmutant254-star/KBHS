@@ -4,189 +4,318 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-
     <title>Kivaywa Boys | Class Registry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --maroon: #800000;
+            --maroon-light: #fff1f1;
             --green: #006400;
-            --black: #1a1a1a;
-            --gray: #f8f9fa;
+            --green-light: #f0fdf4;
+            --black: #0f172a;
+            --slate-500: #64748b;
+            --slate-200: #e2e8f0;
             --white: #ffffff;
-            --border: #dee2e6;
-            --danger: #dc3545;
+            --danger: #ef4444;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--gray);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, rgba(0, 100, 0, 0.05) 0px, transparent 50%), 
+                              radial-gradient(at 100% 100%, rgba(128, 0, 0, 0.05) 0px, transparent 50%);
+            color: var(--black);
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* --- UI COMPONENTS --- */
-        .back-btn {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            text-decoration: none;
-            color: var(--black);
+        /* --- NAVIGATION --- */
+        nav {
+            width: 100%;
+            background: white;
+            padding: 1rem 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--slate-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--slate-500);
             font-weight: 600;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-            background: var(--white);
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
         }
 
-        .back-btn:hover { color: var(--maroon); transform: translateX(-5px); }
+        .back-link:hover { color: var(--maroon); }
 
-        .registry-container {
+        /* --- CONTAINER --- */
+        .registry-wrapper {
             width: 95%;
-            max-width: 500px;
-            background: var(--white);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--green);
+            max-width: 550px;
+            margin: 40px 0;
         }
 
-        h2 { color: var(--black); text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { text-align: center; color: var(--maroon); font-weight: 600; margin-bottom: 30px; font-size: 0.9rem; }
+        .header-box {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-box h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--black);
+        }
+
+        .header-box .subtitle {
+            color: var(--maroon);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- MAIN CARD --- */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--slate-200);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--slate-500);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
 
         input {
             width: 100%;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1.5px solid var(--slate-200);
             font-size: 1rem;
-            background: #fafafa;
-            transition: 0.3s;
-            box-sizing: border-box;
+            transition: 0.2s;
+            font-family: inherit;
         }
 
-        input:focus { outline: none; border-color: var(--green); background: #fff; }
+        input:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 4px rgba(0, 100, 0, 0.1);
+        }
 
         .btn-register {
             width: 100%;
             padding: 16px;
-            background-color: var(--green);
+            background: var(--green);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 14px;
             font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            margin-top: 10px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .class-list {
-            margin-top: 40px;
-            border-top: 2px dashed var(--border);
-            padding-top: 20px;
-            max-height: 300px;
+        .btn-register:hover {
+            background: #004d00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 64, 0, 0.2);
+        }
+
+        /* --- LIST SECTION --- */
+        .list-section {
+            margin-top: 32px;
+            border-top: 1px solid var(--slate-200);
+            padding-top: 24px;
+        }
+
+        .list-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .class-list-container {
+            max-height: 350px;
             overflow-y: auto;
+            padding-right: 5px;
         }
 
         .class-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--gray);
-            padding: 12px 15px;
-            border-radius: 10px;
+            background: #f8fafc;
+            padding: 14px 20px;
+            border-radius: 14px;
             margin-bottom: 10px;
-            border-left: 5px solid var(--maroon);
+            border: 1px solid transparent;
+            transition: 0.2s;
+            animation: slideIn 0.3s ease-out;
         }
 
-        /* --- APP NOTIFICATIONS (TOAST) --- */
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .class-item:hover {
+            background: white;
+            border-color: var(--slate-200);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .class-name { font-weight: 600; color: var(--black); }
+
+        .del-btn {
+            background: none;
+            border: none;
+            color: var(--slate-500);
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .del-btn:hover {
+            background: var(--maroon-light);
+            color: var(--danger);
+        }
+
+        /* --- TOAST --- */
         #toast {
             position: fixed;
             bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
+            right: 30px;
             background: var(--black);
             color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 0.9rem;
+            padding: 16px 24px;
+            border-radius: 16px;
             font-weight: 600;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 2000;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 9999;
         }
 
-        #toast.show { transform: translateX(-50%) translateY(0); }
+        #toast.show { transform: translateX(0); }
 
-        /* --- CUSTOM CONFIRM MODAL --- */
+        /* --- MODAL --- */
         #modalOverlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            display: none; justify-content: center; align-items: center;
+            z-index: 3000; backdrop-filter: blur(8px);
         }
 
         .modal {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 32px;
+            border-radius: 24px;
             width: 90%;
-            max-width: 320px;
+            max-width: 380px;
             text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
 
-        .modal h3 { margin-bottom: 10px; font-size: 1.1rem; }
-        .modal p { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
-        .modal-btns { display: flex; gap: 10px; }
-        .modal-btns button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
-        .btn-cancel { background: var(--gray); color: var(--black); }
-        .btn-confirm { background: var(--danger); color: white; }
+        .modal i { font-size: 3rem; color: var(--danger); margin-bottom: 16px; }
 
-        .tagline { text-align: center; margin-top: 30px; font-size: 0.8rem; color: #bbb; letter-spacing: 3px; font-weight: bold; }
+        .modal-btns { display: flex; gap: 12px; margin-top: 24px; }
+        .modal-btns button { 
+            flex: 1; padding: 12px; border-radius: 12px; border: none; 
+            font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+
+        .btn-confirm { background: var(--danger); color: white; }
+        .btn-confirm:hover { background: #b91c1c; }
+
+        .tagline { text-align: center; margin-top: 40px; font-size: 0.7rem; color: var(--slate-500); letter-spacing: 4px; font-weight: 800; opacity: 0.5; }
     </style>
 </head>
 <body>
 
-    <a href="dash.html" class="back-btn"><span>←</span> Back to Dashboard</a>
+    <nav>
+        <a href="dash.html" class="back-link"><i class="fas fa-arrow-left"></i> Dashboard</a>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" height="30" alt="Logo">
+    </nav>
 
-    <div class="registry-container">
-        <h2>Class Registry</h2>
-        <p class="subtitle">Kivaywa Boys Senior School</p>
-
-        <div style="margin-bottom: 20px;">
-            <label style="display:block; margin-bottom:8px; font-weight:600;">Class Name</label>
-            <input type="text" id="className" placeholder="e.g. Form 4 North" onkeypress="handleKeyPress(event)">
+    <div class="registry-wrapper">
+        <div class="header-box">
+            <p class="subtitle">Official Records</p>
+            <h2>Class <span style="color:var(--green)">Registry</span></h2>
         </div>
 
-        <button class="btn-register" onclick="registerClass()">Register Class</button>
+        <div class="card">
+            <div class="input-group">
+                <label>Register New Class</label>
+                <input type="text" id="className" placeholder="e.g. Form 4 North" onkeypress="handleKeyPress(event)">
+            </div>
 
-        <div class="class-list" id="classListDisplay">
-            <h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>
+            <button class="btn-register" onclick="registerClass()">
+                <i class="fas fa-plus-circle"></i> Save to Registry
+            </button>
+
+            <div class="list-section">
+                <div class="list-title">
+                    <i class="fas fa-list-ul" style="color:var(--green)"></i>
+                    Registered Classes
+                </div>
+                <div class="class-list-container" id="classListDisplay">
+                    </div>
+            </div>
         </div>
 
         <div class="tagline">KNOWLEDGE IS IMMORTAL</div>
     </div>
 
-    <div id="toast">Message here</div>
+    <div id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
 
     <div id="modalOverlay">
         <div class="modal">
-            <h3>Confirm Action</h3>
-            <p>Are you sure you want to remove this class?</p>
+            <i class="fas fa-trash-can"></i>
+            <h3 style="font-size: 1.4rem; margin-bottom: 8px;">Delete Class?</h3>
+            <p style="color: var(--slate-500); font-size: 0.95rem;">This will permanently remove the class from the server records.</p>
             <div class="modal-btns">
-                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-                <button class="btn-confirm" id="confirmDeleteBtn">Remove</button>
+                <button style="background: var(--slate-200);" onclick="closeModal()">Keep it</button>
+                <button class="btn-confirm" id="confirmDeleteBtn">Delete</button>
             </div>
         </div>
     </div>
@@ -195,15 +324,13 @@
         const API_URL = 'https://kbhs.onrender.com/api/classes';
         let pendingDeleteId = null;
 
-        // Custom Notification Function
         function notify(msg) {
             const toast = document.getElementById('toast');
-            toast.innerText = msg;
+            document.getElementById('toastMsg').innerText = msg;
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // Custom Modal Logic
         function openModal(id) {
             pendingDeleteId = id;
             document.getElementById('modalOverlay').style.display = 'flex';
@@ -232,11 +359,7 @@
         async function registerClass() {
             const input = document.getElementById('className');
             const name = input.value.trim();
-
-            if (!name) {
-                notify("Please enter a name");
-                return;
-            }
+            if (!name) return notify("Please enter a class name");
 
             try {
                 const response = await fetch(API_URL, {
@@ -247,40 +370,41 @@
 
                 if (response.ok) {
                     input.value = '';
-                    notify("Class registered successfully!");
+                    notify("Class registered!");
                     fetchClasses();
                 } else {
-                    notify("Error saving class");
+                    notify("Class already exists");
                 }
-            } catch (err) {
-                notify("Server error");
-            }
+            } catch (err) { notify("Server error"); }
         }
 
         async function executeDelete(id) {
             try {
                 const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
                 if (response.ok) {
-                    notify("Class removed from registry");
+                    notify("Class deleted");
                     fetchClasses();
-                } else {
-                    notify("Could not delete");
-                }
-            } catch (err) {
-                notify("Connection failed");
-            }
+                } else { notify("Delete failed"); }
+            } catch (err) { notify("Connection failed"); }
         }
 
         function updateUI(classes) {
             const display = document.getElementById('classListDisplay');
-            display.innerHTML = '<h3 style="font-size: 1rem; margin-bottom: 15px; color: var(--black);">Registered Classes:</h3>';
+            display.innerHTML = '';
+
+            if (classes.length === 0) {
+                display.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 20px; font-size:0.8rem;">No classes registered yet.</p>';
+                return;
+            }
 
             classes.forEach((cls) => {
                 const div = document.createElement('div');
                 div.className = 'class-item';
                 div.innerHTML = `
                     <span class="class-name">${cls.className}</span>
-                    <button onclick="openModal('${cls._id}')" style="background:none; border:none; color:var(--danger); font-size: 1.2rem; cursor:pointer;">&times;</button>
+                    <button class="del-btn" onclick="openModal('${cls._id}')">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
                 `;
                 display.appendChild(div);
             });
