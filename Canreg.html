@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-    <title>Kivaywa Boys | Admin Portal</title>
+    <title>Kivaywa Boys | Enterprise Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -19,7 +19,6 @@
             --slate-200: #e2e8f0;
             --white: #ffffff;
             --danger: #ef4444;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
@@ -28,15 +27,12 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
-            background-image: radial-gradient(at 0% 0%, rgba(128, 0, 0, 0.05) 0px, transparent 50%), 
-                              radial-gradient(at 100% 100%, rgba(0, 100, 0, 0.05) 0px, transparent 50%);
             color: var(--black);
             line-height: 1.5;
             min-height: 100vh;
-            padding-bottom: 50px;
         }
 
-        /* --- NAVIGATION --- */
+        /* --- UI COMPONENTS --- */
         nav {
             background: white;
             padding: 1rem 2rem;
@@ -44,265 +40,178 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--slate-200);
-            margin-bottom: 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .back-link {
-            text-decoration: none;
-            color: var(--slate-500);
-            font-weight: 600;
-            font-size: 0.9rem;
+        .container { width: 95%; max-width: 1200px; margin: 2rem auto; }
+        
+        .header-flex {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.2s;
-        }
-
-        .back-link:hover { color: var(--maroon); }
-
-        /* --- LAYOUT --- */
-        .container { width: 95%; max-width: 1100px; margin: 0 auto; }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .header-section h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            color: var(--black);
-        }
-
-        .header-section .badge {
-            background: var(--maroon);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            vertical-align: middle;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            padding: 0 10px;
         }
 
         .admin-grid { 
             display: grid; 
             grid-template-columns: 1fr 1.5fr; 
             gap: 25px; 
-            align-items: start;
         }
 
-        /* --- CARDS --- */
         .card { 
             background: white; 
             border-radius: 20px; 
             padding: 24px; 
-            box-shadow: var(--shadow); 
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
             border: 1px solid var(--slate-200);
-            transition: transform 0.2s;
         }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .card-header i {
-            padding: 10px;
-            border-radius: 12px;
-        }
-
-        /* --- FORMS --- */
+        /* --- FORMS & BUTTONS --- */
         .form-group { margin-bottom: 15px; }
-
-        label { 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            color: var(--slate-500); 
-            margin-bottom: 6px; 
-            display: block; 
-            text-transform: uppercase;
-        }
-
+        label { font-size: 0.75rem; font-weight: 700; color: var(--slate-500); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        
         input, select { 
-            width: 100%; 
-            padding: 12px 16px; 
-            border-radius: 12px; 
-            border: 1.5px solid var(--slate-200); 
-            outline: none; 
-            transition: 0.2s;
-            font-family: inherit;
-            font-size: 0.95rem;
+            width: 100%; padding: 12px; border-radius: 12px; 
+            border: 1.5px solid var(--slate-200); outline: none; font-family: inherit;
         }
 
-        input:focus, select:focus { 
-            border-color: var(--maroon); 
-            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.1);
+        .btn {
+            cursor: pointer; border-radius: 12px; font-weight: 700; padding: 12px 20px;
+            transition: all 0.2s; border: none; display: flex; align-items: center;
+            justify-content: center; gap: 8px; font-size: 0.9rem;
         }
 
-        /* --- BUTTONS --- */
-        .btn { 
-            cursor: pointer; 
-            border-radius: 12px; 
-            font-weight: 700; 
-            padding: 12px 20px; 
-            transition: all 0.2s; 
-            border: none; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .btn-maroon { background: var(--maroon); color: white; width: 100%; }
-        .btn-maroon:hover { background: var(--black); transform: translateY(-1px); }
-
-        .btn-green { background: var(--green); color: white; width: 100%; }
-        .btn-green:hover { background: #004d00; transform: translateY(-1px); }
+        .btn-maroon { background: var(--maroon); color: white; }
+        .btn-outline { border: 1.5px solid var(--slate-200); background: white; color: var(--black); }
+        .btn-outline:hover { background: var(--slate-200); }
 
         /* --- LISTS --- */
-        .scroll-list { 
-            margin-top: 20px;
-            max-height: 400px; 
-            overflow-y: auto; 
-            border-top: 1px solid var(--slate-200);
-        }
-
+        .scroll-list { margin-top: 20px; max-height: 400px; overflow-y: auto; }
         .list-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 14px 8px; 
-            border-bottom: 1px solid #f1f5f9;
-            animation: fadeIn 0.4s ease;
+            display: flex; justify-content: space-between; padding: 12px;
+            border-bottom: 1px solid #f1f5f9; align-items: center;
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- PRINT SPECIFIC STYLES --- */
+        #printArea { display: none; }
 
-        .list-item:hover { background: #f8fafc; }
-
-        .item-info b { font-weight: 600; color: var(--black); }
-        .item-info span { font-size: 0.85rem; color: var(--slate-500); }
-
-        .del-btn { 
-            height: 32px;
-            width: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            color: var(--slate-500); 
-            cursor: pointer; 
-            transition: all 0.2s;
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea {
+                display: block !important;
+                position: absolute;
+                left: 0; top: 0; width: 100%;
+                padding: 40px;
+                background: white;
+            }
+            .print-header { text-align: center; border-bottom: 2px solid var(--maroon); padding-bottom: 20px; margin-bottom: 30px; }
+            .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .print-table th, .print-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            .print-table th { background-color: #f2f2f2; }
+            .no-print { display: none !important; }
         }
 
-        .del-btn:hover { background: var(--maroon-light); color: var(--danger); }
-
-        /* --- MODAL --- */
+        /* --- TOAST & MODAL (Same as your original) --- */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
+        .toast { background: var(--black); color: white; padding: 16px 24px; border-radius: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        
         #modalOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            display: none; justify-content: center; align-items: center;
+            background: rgba(15, 23, 42, 0.7); display: none; justify-content: center; align-items: center;
             z-index: 9999; backdrop-filter: blur(8px);
         }
-        .modal { background: white; padding: 32px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; box-shadow: var(--shadow-xl); }
-        .modal i { font-size: 3rem; color: var(--danger); margin-bottom: 1rem; }
+        .modal { background: white; padding: 32px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; }
 
-        /* --- TOAST --- */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
-        .toast {
-            background: var(--black); color: white; padding: 16px 24px;
-            border-radius: 16px; margin-bottom: 10px; box-shadow: var(--shadow-xl);
-            display: flex; align-items: center; gap: 12px; font-weight: 500;
-            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        @media (max-width: 850px) { 
-            .admin-grid { grid-template-columns: 1fr; } 
-            .container { padding: 10px; }
-        }
+        @media (max-width: 850px) { .admin-grid { grid-template-columns: 1fr; } .header-flex { flex-direction: column; align-items: flex-start; gap: 1rem; } }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="dash.html" class="back-link"><i class="fas fa-arrow-left"></i> Dashboard</a>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" height="30" alt="Logo">
+    <div id="printArea">
+        <div class="print-header">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" height="80" alt="Logo">
+            <h1 style="margin-top:10px;">KIVAYWA BOYS HIGH SCHOOL</h1>
+            <h3 style="color: #666;">Official Candidates List - 2026 Elections</h3>
+        </div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Candidate Name</th>
+                    <th>Position Vying For</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody">
+                </tbody>
+        </table>
+        <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+            <p>__________________________<br>Electoral Commissioner</p>
+            <p>__________________________<br>School Principal</p>
+        </div>
+    </div>
+
+    <nav class="no-print">
+        <a href="dash.html" style="text-decoration:none; color:var(--slate-500); font-weight:600;"><i class="fas fa-arrow-left"></i> Dashboard</a>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" height="35" alt="Logo">
     </nav>
 
     <div id="toast-container"></div>
 
     <div id="modalOverlay">
         <div class="modal">
-            <i class="fas fa-exclamation-circle"></i>
-            <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Are you sure?</h3>
-            <p style="color: var(--slate-500); margin-bottom: 24px;">This action cannot be undone. This record will be permanently removed.</p>
+            <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: var(--danger); margin-bottom: 1rem;"></i>
+            <h3>Confirm Deletion</h3>
+            <p style="color: var(--slate-500); margin: 15px 0 25px;">Are you sure you want to remove this record?</p>
             <div style="display: flex; gap: 12px;">
                 <button class="btn" style="flex:1; background: var(--slate-200);" onclick="closeModal()">Cancel</button>
-                <button class="btn" style="flex:1; background: var(--danger); color:white;" id="confirmBtn">Delete Record</button>
+                <button class="btn" style="flex:1; background: var(--danger); color:white;" id="confirmBtn">Delete</button>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="header-section">
-            <span class="badge">System Administrator</span>
-            <h2>Election Portal <span style="color:var(--maroon)">Management</span></h2>
+    <div class="container no-print">
+        <div class="header-flex">
+            <div>
+                <span style="background:var(--maroon); color:white; padding:4px 12px; border-radius:20px; font-size:0.7rem; font-weight:700;">ADMIN PANEL</span>
+                <h2 style="font-size: 2rem; margin-top:5px;">Election <span style="color:var(--maroon)">Management</span></h2>
+            </div>
+            <button class="btn btn-outline" onclick="prepareAndPrint()">
+                <i class="fas fa-print"></i> Generate Official List
+            </button>
         </div>
 
         <div class="admin-grid">
             <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-briefcase" style="background: var(--green-light); color: var(--green);"></i>
-                    <h3 style="font-size: 1.1rem;">Post Registry</h3>
-                </div>
-                
+                <h3 style="margin-bottom:20px;"><i class="fas fa-briefcase" style="color:var(--green)"></i> Positions</h3>
                 <div class="form-group">
-                    <label>Position Title</label>
-                    <input type="text" id="postInput" placeholder="e.g. Games Captain">
+                    <label>New Position Name</label>
+                    <input type="text" id="postInput" placeholder="e.g. Dining Hall Captain">
                 </div>
-                
-                <button class="btn btn-green" onclick="savePost()">
-                    <i class="fas fa-plus-circle"></i> Add Position
-                </button>
-                
-                <div class="scroll-list" id="postList">
-                    </div>
+                <button class="btn btn-maroon" style="width:100%; background:var(--green);" onclick="savePost()">Add Position</button>
+                <div class="scroll-list" id="postList"></div>
             </div>
 
             <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-user-graduate" style="background: var(--maroon-light); color: var(--maroon);"></i>
-                    <h3 style="font-size: 1.1rem;">Candidate Registry</h3>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 15px;">
+                <h3 style="margin-bottom:20px;"><i class="fas fa-user-graduate" style="color:var(--maroon)"></i> Candidates</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
-                        <label>Candidate Full Name</label>
-                        <input type="text" id="candName" placeholder="Enter student name...">
+                        <label>Student Full Name</label>
+                        <input type="text" id="candName" placeholder="Enter name...">
                     </div>
                     <div class="form-group">
-                        <label>Assigned Post</label>
+                        <label>Target Position</label>
                         <select id="postSelect">
-                            <option value="">Choose...</option>
+                            <option value="">Select Position...</option>
                         </select>
                     </div>
                 </div>
-
-                <button class="btn btn-maroon" onclick="saveCandidate()">
-                    <i class="fas fa-user-plus"></i> Register Candidate
-                </button>
-
-                <div class="scroll-list" id="candList">
-                    </div>
+                <button class="btn btn-maroon" style="width:100%;" onclick="saveCandidate()">Register Candidate</button>
+                <div class="scroll-list" id="candList"></div>
             </div>
         </div>
     </div>
@@ -310,6 +219,7 @@
     <script>
         const API_CANDIDATES = 'https://kbhs.onrender.com/api/candidates';
         const API_POSTS = 'https://kbhs.onrender.com/api/posts';
+        let currentCandidates = []; 
         let deleteTarget = { id: null, type: null };
 
         function notify(msg, icon = 'check-circle') {
@@ -318,16 +228,12 @@
             toast.className = 'toast';
             toast.innerHTML = `<i class="fas fa-${icon}"></i> ${msg}`;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         function openConfirm(id, type) {
             deleteTarget = { id, type };
-            const modal = document.getElementById('modalOverlay');
-            modal.style.display = 'flex';
+            document.getElementById('modalOverlay').style.display = 'flex';
         }
 
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
@@ -335,76 +241,88 @@
         document.getElementById('confirmBtn').onclick = async () => {
             const url = deleteTarget.type === 'post' ? API_POSTS : API_CANDIDATES;
             try {
-                const btn = document.getElementById('confirmBtn');
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
                 await fetch(`${url}/${deleteTarget.id}`, { method: 'DELETE' });
-                notify("Record removed successfully", "trash");
+                notify("Deleted successfully", "trash");
                 closeModal();
                 loadData();
-            } catch (e) { notify("Connection Error", "exclamation-triangle"); }
-            finally { document.getElementById('confirmBtn').innerText = 'Delete Record'; }
+            } catch (e) { notify("Error connecting to server", "exclamation-triangle"); }
         };
 
         async function loadData() {
             try {
                 const [pRes, cRes] = await Promise.all([fetch(API_POSTS), fetch(API_CANDIDATES)]);
                 const posts = await pRes.json();
-                const cands = await cRes.json();
+                currentCandidates = await cRes.json();
 
-                // Update Posts
+                // Update Post UI
                 const postList = document.getElementById('postList');
                 const postSelect = document.getElementById('postSelect');
                 postList.innerHTML = '';
-                postSelect.innerHTML = '<option value="">Choose...</option>';
+                postSelect.innerHTML = '<option value="">Select Position...</option>';
                 
                 posts.forEach(p => {
                     postList.innerHTML += `
                         <div class="list-item">
-                            <div class="item-info">
-                                <b>${p.name}</b>
-                            </div>
-                            <div class="del-btn" onclick="openConfirm('${p._id}', 'post')">
-                                <i class="fas fa-trash-alt"></i>
-                            </div>
+                            <span><b>${p.name}</b></span>
+                            <div class="del-btn" style="cursor:pointer; color:var(--slate-500)" onclick="openConfirm('${p._id}', 'post')"><i class="fas fa-trash"></i></div>
                         </div>`;
                     postSelect.innerHTML += `<option value="${p.name}">${p.name}</option>`;
                 });
 
-                // Update Candidates
+                // Update Candidate UI
                 const candList = document.getElementById('candList');
                 candList.innerHTML = '';
-                cands.forEach(c => {
+                currentCandidates.forEach(c => {
                     candList.innerHTML += `
                         <div class="list-item">
-                            <div class="item-info">
+                            <div>
                                 <b>${c.name}</b><br>
-                                <span><i class="fas fa-tag"></i> ${c.post}</span>
+                                <small style="color:var(--slate-500)">${c.post}</small>
                             </div>
-                            <div class="del-btn" onclick="openConfirm('${c._id}', 'candidate')">
-                                <i class="fas fa-trash-alt"></i>
-                            </div>
+                            <div style="cursor:pointer; color:var(--slate-500)" onclick="openConfirm('${c._id}', 'candidate')"><i class="fas fa-trash"></i></div>
                         </div>`;
                 });
-            } catch (e) { console.error("Load failed", e); }
+            } catch (e) { console.error("Sync failed"); }
         }
 
         async function savePost() {
             const name = document.getElementById('postInput').value.trim();
-            if(!name) return notify("Please enter a title", "info-circle");
+            if(!name) return notify("Enter position name", "info");
             await fetch(API_POSTS, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ name })});
             document.getElementById('postInput').value = '';
-            notify("Position Registered");
             loadData();
+            notify("Position Added");
         }
 
         async function saveCandidate() {
             const name = document.getElementById('candName').value.trim();
             const post = document.getElementById('postSelect').value;
-            if(!name || !post) return notify("Missing information", "info-circle");
+            if(!name || !post) return notify("Fill all fields", "info");
             await fetch(API_CANDIDATES, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ name, post })});
             document.getElementById('candName').value = '';
-            notify("Candidate Added");
             loadData();
+            notify("Candidate Registered");
+        }
+
+        function prepareAndPrint() {
+            const tbody = document.getElementById('printTableBody');
+            tbody.innerHTML = '';
+            
+            if(currentCandidates.length === 0) {
+                return notify("No candidates to print", "exclamation-circle");
+            }
+
+            currentCandidates.forEach((c, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${c.name}</td>
+                        <td>${c.post}</td>
+                    </tr>
+                `;
+            });
+
+            window.print();
         }
 
         loadData();
