@@ -4,255 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s">
-    <title>Kivaywa Boys | E-Tally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Kivaywa Boys | Official Electoral Tally</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --maroon: #800000;
-            --green: #006400;
+            --green: #064e3b;
             --black: #0f172a;
-            --slate: #64748b;
-            --gold: #fbbf24;
+            --slate-500: #64748b;
+            --slate-100: #f1f5f9;
+            --gold: #b45309;
             --white: #ffffff;
-            --bg: #f1f5f9;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
+            background-color: #f8fafc;
             color: var(--black);
-            padding-bottom: 50px;
+            -webkit-print-color-adjust: exact;
         }
 
-        /* --- NAV --- */
+        /* --- UI COMPONENTS (HIDDEN DURING PRINT) --- */
         nav {
-            background: var(--black);
+            background: white;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
+            border-bottom: 1px solid #e2e8f0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
-        .back-btn {
-            color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-
-        .back-btn:hover { background: var(--maroon); border-color: var(--maroon); }
-
-        /* --- LAYOUT --- */
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            border-left: 8px solid var(--maroon);
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-
-        .header-main h1 { font-size: 1.8rem; font-weight: 800; color: var(--black); letter-spacing: -1px; }
-        .header-main p { color: var(--maroon); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
-
-        /* --- ACTION BAR --- */
-        .action-bar {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 20px;
-            align-items: end;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-
-        .input-wrap label { display: block; font-size: 0.75rem; font-weight: 800; color: var(--slate); margin-bottom: 8px; text-transform: uppercase; }
-        
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-            font-family: inherit;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-        }
-
-        select:focus { border-color: var(--green); }
 
         .btn-print {
-            background: var(--green);
+            background: var(--black);
             color: white;
             border: none;
-            padding: 14px 28px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: all 0.2s;
         }
 
-        .btn-print:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,100,0,0.2); }
-        .btn-print:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-print:hover:not(:disabled) { background: var(--maroon); }
+        .btn-print:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        /* --- TABLE --- */
-        .table-card {
+        /* --- MAIN CONTAINER --- */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- OFFICIAL HEADER --- */
+        .official-header {
             background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 30px;
+            position: relative;
         }
 
-        .table-responsive { overflow-x: auto; }
+        .school-logo { height: 80px; margin-bottom: 15px; }
+
+        .official-header h1 { 
+            font-size: 1.5rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            margin-bottom: 5px;
+            color: var(--maroon);
+        }
+
+        /* --- TALLY TABLE --- */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
 
         table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; color: var(--slate); padding: 15px; text-align: left; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; }
-        td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
+        th { 
+            background: #f8fafc; 
+            padding: 18px; 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            font-weight: 800; 
+            color: var(--slate-500);
+            border-bottom: 2px solid #e2e8f0;
+        }
 
-        .class-name-cell { font-weight: 700; color: var(--black); background: #f8fafc; width: 180px; }
+        td { padding: 15px 18px; border-bottom: 1px solid #f1f5f9; font-weight: 600; }
         
         .vote-input {
-            width: 70px;
+            width: 80px;
             padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
             text-align: center;
             font-weight: 800;
             font-size: 1rem;
-            transition: 0.2s;
         }
 
-        .vote-input:focus { border-color: var(--maroon); outline: none; background: #fff1f1; }
+        .total-row { background: #f1f5f9; }
+        .total-row td { font-weight: 900; color: var(--maroon); font-size: 1.1rem; }
 
-        .total-row { background: var(--black) !important; color: white; }
-        .total-row td { border: none; font-weight: 800; font-size: 1.1rem; }
-        .total-val { color: var(--gold); }
-
-        /* --- WINNER SECTION --- */
-        .winner-section {
-            margin-top: 30px;
-            background: var(--black);
-            color: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        /* --- SIGNATURES (ONLY PRINT) --- */
+        .signature-block {
             display: none;
+            margin-top: 50px;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
         }
 
-        .winner-section::before {
-            content: "\f091";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            font-size: 10rem;
-            color: rgba(255,255,255,0.03);
-            top: -20px; right: -20px;
-        }
+        .sig-line { border-top: 2px solid black; margin-top: 60px; padding-top: 10px; font-weight: 800; font-size: 0.8rem; }
 
-        .winner-section h2 { font-size: 2.5rem; color: var(--gold); margin: 10px 0; font-weight: 800; }
-        .stats-badge { background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; }
-
-        /* --- PRINT --- */
+        /* --- PRINT OVERRIDES --- */
         @media print {
-            nav, .action-bar, .vote-input, .back-btn { display: none !important; }
-            body { background: white; padding: 0; }
-            .container { max-width: 100%; margin: 0; }
-            .winner-section { display: block !important; background: white !important; color: black !important; border: 2px solid black; }
-            .print-only-val { display: block !important; font-weight: 800; }
-            .table-card { box-shadow: none; border: 1px solid #000; }
+            nav, .action-area, .vote-input, .no-print { display: none !important; }
+            body { background: white; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+            .table-container { border: 2px solid black; box-shadow: none; border-radius: 0; }
+            .official-header { border: none; padding: 20px 0; }
+            .print-val { display: block !important; font-weight: 800; font-size: 1.2rem; }
+            .signature-block { display: grid; }
+            th { background: #eee !important; color: black; border-bottom: 2px solid black; }
+            td { border-bottom: 1px solid #ccc; }
+            .total-row { background: #ddd !important; }
         }
 
-        .print-only-val { display: none; }
+        .print-val { display: none; }
+        .action-area { margin-bottom: 30px; display: flex; gap: 20px; align-items: flex-end; }
+        
+        .form-control { flex: 1; }
+        .form-control label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--slate-500); text-transform: uppercase; margin-bottom: 8px; }
+        
+        select { 
+            width: 100%; padding: 14px; border-radius: 8px; border: 2px solid #e2e8f0; 
+            font-family: inherit; font-weight: 700; outline: none; cursor: pointer;
+        }
 
-        #loader { text-align: center; padding: 50px; font-weight: 700; color: var(--slate); }
-
-        @media (max-width: 768px) {
-            .action-bar { grid-template-columns: 1fr; }
-            header { flex-direction: column; text-align: center; gap: 15px; }
+        #winnerOverlay {
+            margin-top: 30px;
+            background: var(--green);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="dash.html" class="back-btn"><i class="fas fa-chevron-left"></i> DASHBOARD</a>
-        <div style="font-weight: 800; font-size: 0.9rem; color: var(--gold);">KIVAYWA E-TALLY </div>
+    <nav class="no-print">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <a href="dash.html" style="color: var(--black); text-decoration: none; font-weight: 800;"><i class="fas fa-arrow-left"></i></a>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" height="30">
+        </div>
+        <button class="btn-print" id="printBtn" onclick="window.print()" disabled>
+            <i class="fas fa-print"></i> GENERATE OFFICIAL REPORT
+        </button>
     </nav>
 
     <div class="container">
-        <header>
-            <div class="header-main">
-                <p>Electoral Commission</p>
-                <h1>Live Election <span style="color:var(--maroon)">Tallying</span></h1>
+        <div class="official-header">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT182QjOZmHaUdd56SiVgSFx14YvNEuzOUS7A&s" class="school-logo">
+            <h1>Kivaywa Boys High School</h1>
+            <p style="font-weight: 700; letter-spacing: 1px; color: var(--slate-500);">ELECTORAL COMMISSION OF KIVAYWA (ECK)</p>
+            <div style="margin-top: 15px; font-size: 0.9rem; font-weight: 800;">
+                OFFICIAL TALLY SHEET: <span id="postTitle" style="color: var(--maroon);">[SELECT POST]</span>
             </div>
-            <div style="text-align: right;">
-                <div id="currentDate" style="font-weight: 700;"></div>
-                <div style="font-size: 0.7rem; color: var(--slate); text-transform: uppercase; font-weight: 800;">Secure Session Active</div>
-            </div>
-        </header>
+            <div style="font-size: 0.7rem; margin-top: 5px; color: var(--slate-500);" id="printTimestamp"></div>
+        </div>
 
-        <div id="loader"><i class="fas fa-spinner fa-spin"></i> Synchronizing with kivaywaDB...</div>
-
-        <div class="action-bar">
-            <div class="input-wrap">
-                <label>Select Department / Office</label>
+        <div class="action-area no-print">
+            <div class="form-control">
+                <label>Active Election Department</label>
                 <select id="postFilter" onchange="renderTallyTable()">
-                    <option value="">-- Choose Post --</option>
+                    <option value="">-- Select Office --</option>
                 </select>
             </div>
-            <button class="btn-print" onclick="window.print()" id="printBtn" disabled>
-                <i class="fas fa-file-invoice"></i> Export Official Report
-            </button>
         </div>
 
-        <div id="tallyArea" class="table-card">
-            <div style="padding: 60px; text-align: center; color: var(--slate);">
-                <i class="fas fa-poll" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.2;"></i>
-                <p>Select an elective post to begin data entry and visualization.</p>
+        <div id="tallyTableContainer" class="table-container">
+            <div style="padding: 100px; text-align: center; color: var(--slate-500);">
+                <i class="fas fa-database fa-3x" style="margin-bottom: 20px; opacity: 0.2;"></i>
+                <p>Select a department to pull live data from the server.</p>
             </div>
         </div>
 
-        <div id="winnerDisplay" class="winner-section">
-            <div style="text-transform: uppercase; font-size: 0.7rem; font-weight: 800; letter-spacing: 3px; color: var(--slate);">Lead Candidate</div>
-            <h2 id="winnerName">-</h2>
-            <span class="stats-badge" id="winnerVotes">0 Total Votes</span>
+        <div id="winnerOverlay">
+            <div style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; font-weight: 800; margin-bottom: 10px;">Current Frontrunner</div>
+            <h2 id="winnerName" style="font-size: 2rem;">-</h2>
+            <p id="winnerVotes" style="font-weight: 700; opacity: 0.8;"></p>
         </div>
 
-        <div style="text-align: center; margin-top: 40px; opacity: 0.3; font-size: 0.6rem; letter-spacing: 4px; font-weight: 800;">
-            OFFICIAL KIVAYWA BOYS HIGH SCHOOL ELECTORAL TOOL
+        <div class="signature-block">
+            <div class="sig-card">
+                <div class="sig-line">Presiding Officer Name & Signature</div>
+            </div>
+            <div class="sig-card">
+                <div class="sig-line">Official ECK Stamp & Date</div>
+            </div>
+            <div class="sig-card">
+                <div class="sig-line">Agent Signature (Winner)</div>
+            </div>
+            <div class="sig-card">
+                <div class="sig-line">Agent Signature (Runner Up)</div>
+            </div>
+        </div>
+
+        <div class="no-print" style="text-align: center; margin-top: 30px; font-size: 0.7rem; font-weight: 800; color: var(--slate-500); opacity: 0.5;">
+            SECURE SYSTEM ID: KBHS-E-TALLY-2026-V1
         </div>
     </div>
 
@@ -261,10 +237,6 @@
         let candidates = [];
         let classes = [];
         let results = {};
-
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-GB', {
-            day: '2-digit', month: 'short', year: 'numeric'
-        });
 
         async function init() {
             try {
@@ -281,40 +253,41 @@
                 const postFilter = document.getElementById('postFilter');
                 const uniquePosts = [...new Set(candidates.map(c => c.post))];
                 uniquePosts.forEach(post => postFilter.add(new Option(post, post)));
-
-                document.getElementById('loader').style.display = 'none';
             } catch (err) {
-                document.getElementById('loader').innerHTML = `<i class="fas fa-exclamation-triangle" style="color:var(--maroon)"></i> Server Connection Failed.`;
+                console.error("Critical System Failure");
             }
         }
 
         function renderTallyTable() {
             const post = document.getElementById('postFilter').value;
-            const tallyArea = document.getElementById('tallyArea');
+            const container = document.getElementById('tallyTableContainer');
             const printBtn = document.getElementById('printBtn');
+            const postTitle = document.getElementById('postTitle');
             
             if (!post) {
-                tallyArea.innerHTML = `<div style="padding:60px;text-align:center;color:var(--slate);">Select a post to display data.</div>`;
                 printBtn.disabled = true;
-                document.getElementById('winnerDisplay').style.display = 'none';
+                postTitle.innerText = "[SELECT POST]";
                 return;
             }
 
             printBtn.disabled = false;
+            postTitle.innerText = post.toUpperCase();
+            document.getElementById('printTimestamp').innerText = "SYSTEM PRINT: " + new Date().toLocaleString();
+
             const filteredCands = candidates.filter(c => c.post === post);
 
-            let html = `<div class="table-responsive"><table><thead><tr><th>Class Stream</th>`;
+            let html = `<table><thead><tr><th>Stream</th>`;
             filteredCands.forEach(c => { html += `<th>${c.name}</th>`; });
             html += `</tr></thead><tbody>`;
 
             classes.forEach((cls) => {
-                html += `<tr><td class="class-name-cell">${cls.className}</td>`;
+                html += `<tr><td>${cls.className}</td>`;
                 filteredCands.forEach((c, idx) => {
                     const rKey = `${post}_${c.name}_${cls.className}`;
                     const val = results[rKey] || 0;
                     html += `<td>
-                        <span class="print-only-val">${val}</span>
-                        <input type="number" class="vote-input" 
+                        <span class="print-val">${val}</span>
+                        <input type="number" class="vote-input no-print" 
                                oninput="saveVote('${rKey}', this.value)" 
                                data-idx="${idx}" value="${val}" min="0">
                     </td>`;
@@ -323,11 +296,11 @@
             });
 
             html += `<tr class="total-row"><td>AGGREGATE</td>`;
-            filteredCands.forEach((_, i) => { html += `<td id="total-${i}" class="total-val">0</td>`; });
-            html += `</tr></tbody></table></div>`;
+            filteredCands.forEach((_, i) => { html += `<td id="total-${i}">0</td>`; });
+            html += `</tr></tbody></table>`;
 
-            tallyArea.innerHTML = html;
-            document.getElementById('winnerDisplay').style.display = 'block';
+            container.innerHTML = html;
+            document.getElementById('winnerOverlay').style.display = 'block';
             calculateTotals();
         }
 
@@ -335,14 +308,13 @@
             const votes = parseInt(val) || 0;
             results[key] = votes;
             calculateTotals();
-
             try {
                 await fetch(`${API_BASE}/results`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ resultKey: key, votes })
                 });
-            } catch (e) { console.error("Sync Error"); }
+            } catch (e) { notify("Sync Failed"); }
         }
 
         function calculateTotals() {
@@ -358,22 +330,14 @@
 
             let topVotes = -1;
             let winner = "";
-            let isTie = false;
 
             totals.forEach((t, i) => {
-                const cell = document.getElementById(`total-${i}`);
-                if(cell) cell.innerText = t;
-                if (t > topVotes) {
-                    topVotes = t; winner = filteredCands[i].name; isTie = false;
-                } else if (t === topVotes && t > 0) { isTie = true; }
+                document.getElementById(`total-${i}`).innerText = t;
+                if (t > topVotes) { topVotes = t; winner = filteredCands[i].name; }
             });
 
-            const winH = document.getElementById('winnerName');
-            if (topVotes <= 0) winH.innerText = "Awaiting Tallies";
-            else if (isTie) winH.innerText = "Tied Result";
-            else winH.innerText = winner;
-            
-            document.getElementById('winnerVotes').innerText = `${topVotes} Confirmed Votes`;
+            document.getElementById('winnerName').innerText = topVotes > 0 ? winner : "Awaiting Tally";
+            document.getElementById('winnerVotes').innerText = topVotes > 0 ? `${topVotes} Total Confirmed Votes` : "";
         }
 
         init();
